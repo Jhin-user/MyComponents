@@ -3,6 +3,7 @@ package RunAsWindowsUI;
 import MyComponents.BUSMyTable;
 import MyComponents.MyAvatar;
 import MyComponents.MyTable;
+import MyComponents.RadiusPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,8 +16,6 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -60,7 +59,7 @@ public class RunTheGUI extends JFrame {
         add(backgroundPanel, "Center");
 
         /* -------------------- Components -------------------- */
-        int component = 0;
+        int component = 5;
         switch (component) {
             case 0 ->
                 creatMyTable();
@@ -71,7 +70,9 @@ public class RunTheGUI extends JFrame {
             case 3 ->
                 creatRightMenuAnimation();
             case 4 ->
-                menuHover();
+                creatMenuHover();
+            case 5 ->
+                createRadiusPanel();
             default -> {
                 System.out.println("No Components Choosen");
             }
@@ -140,7 +141,7 @@ public class RunTheGUI extends JFrame {
         /* ------------------------------- */
         myTable.setData(dataTest);
         jcp.setViewportView(myTable);
-        
+
         new BUSMyTable(myTable);
     }
 
@@ -271,7 +272,7 @@ public class RunTheGUI extends JFrame {
     /* ------------------------------------------------------------ */
     private JPanel leftMenu;
 
-    private void menuHover() {
+    private void creatMenuHover() {
         setLayout(null);
 
         leftMenu = new JPanel(new FlowLayout(3, 0, 3));
@@ -336,5 +337,15 @@ public class RunTheGUI extends JFrame {
         mainPanel.setBounds(0, 0, 1024, 720);
         mainPanel.setBackground(Color.pink);
         add(mainPanel);
+    }
+
+    private void createRadiusPanel() {
+        backgroundPanel.setLayout(new FlowLayout(3, 10, 10));
+        
+        RadiusPanel radiusPanel = new RadiusPanel(45, 4, new Color[]{});
+        radiusPanel.setPreferredSize(new Dimension(300, 40));
+        radiusPanel.setBackgroundColor(Color.lightGray);
+        radiusPanel.setBorderColor(new Color[]{Color.pink, Color.orange});
+        backgroundPanel.add(radiusPanel);
     }
 }
