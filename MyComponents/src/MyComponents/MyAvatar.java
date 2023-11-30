@@ -89,6 +89,7 @@ public class MyAvatar extends JPanel {
         double scale = Math.max(xScale, yScale);
         int width = (int) (scale * iw);
         int height = (int) (scale * ih);
+        
         if (width < 1) {
             width = 1;
         }

@@ -4,6 +4,7 @@ import MyComponents.BUSMyTable;
 import MyComponents.MyAvatar;
 import MyComponents.MyTable;
 import MyComponents.RadiusPanel;
+import MyComponents.RealTimePanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -59,7 +60,7 @@ public class RunTheGUI extends JFrame {
         add(backgroundPanel, "Center");
 
         /* -------------------- Components -------------------- */
-        int component = 5;
+        int component = 0;
         switch (component) {
             case 0 ->
                 creatMyTable();
@@ -73,6 +74,8 @@ public class RunTheGUI extends JFrame {
                 creatMenuHover();
             case 5 ->
                 createRadiusPanel();
+            case 6 ->
+                createRealTimeClock();
             default -> {
                 System.out.println("No Components Choosen");
             }
@@ -102,13 +105,13 @@ public class RunTheGUI extends JFrame {
             e.getAdjustable().setUnitIncrement(10);
         });
         /* ---------- Visible ScrollPane ---------- */
-//        boolean scrollPaneVisible = false;
-//        if (!scrollPaneVisible) {
-        jcp.setOpaque(false);
-        jcp.getViewport().setOpaque(false);
-        jcp.getViewport().setBackground(new Color(0, 0, 0, 0));
-        jcp.getVerticalScrollBar().setOpaque(false);
-//        }
+        boolean scrollPaneVisible = false;
+        if (!scrollPaneVisible) {
+            jcp.setOpaque(false);
+            jcp.getViewport().setOpaque(false);
+//            jcp.getViewport().setBackground(new Color(0, 0, 0, 0));
+            jcp.getVerticalScrollBar().setOpaque(false);
+        }
         /* ---------------------------------------- */
         backgroundPanel.add(jcp);
 
@@ -121,7 +124,7 @@ public class RunTheGUI extends JFrame {
         boolean tranparency = true;
         if (tranparency) {
             myTable.setOpaque(false);
-            myTable.setHeadersProperties(new Color(255, 165, 0, 100), Color.white, new Font("Monospaced", 1, 20), 30);
+            myTable.setHeadersProperties(new Color(255, 165, 0, 150), Color.white, new Font("Monospaced", 1, 20), 30);
             myTable.setTableProperties(new Color(192, 192, 192, 192), Color.white, new Font("Consolas", 0, 18), 50);
         } else {
             myTable.setHeadersProperties(Color.orange, myTable.getTableHeader().getForeground(), new Font("Monospaced", 1, 20), 30);
@@ -341,11 +344,18 @@ public class RunTheGUI extends JFrame {
 
     private void createRadiusPanel() {
         backgroundPanel.setLayout(new FlowLayout(3, 10, 10));
-        
+
         RadiusPanel radiusPanel = new RadiusPanel(45, 4, new Color[]{});
         radiusPanel.setPreferredSize(new Dimension(300, 40));
         radiusPanel.setBackgroundColor(Color.lightGray);
         radiusPanel.setBorderColor(new Color[]{Color.pink, Color.orange});
         backgroundPanel.add(radiusPanel);
+    }
+
+    private void createRealTimeClock() {
+        RealTimePanel realTimePanel = new RealTimePanel();
+        realTimePanel.setPreferredSize(new Dimension(50, 50));
+        realTimePanel.setOpaque(false);
+        backgroundPanel.add(realTimePanel);
     }
 }
