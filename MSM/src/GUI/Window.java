@@ -2,7 +2,6 @@ package GUI;
 
 import BUS.BUSControlWindows;
 import BUS.BUSFeature;
-import GUISupport.Card;
 import GUISupport.FeatureItem;
 import GUISupport.RealTimePanel;
 import Images.ImageSupport;
@@ -24,7 +23,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
 
 /**
  *
@@ -34,7 +32,7 @@ public class Window extends JFrame {
 
     private final Rectangle screenRect = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     private final Dimension fullScreenSize = new Dimension(screenRect.width, screenRect.height);
-    private final Image image = new ImageIcon(getClass().getResource("../Images/back 1.jpg")).getImage();
+    private final Image image = new ImageIcon(getClass().getResource("../Images/Viego.png")).getImage();
     private final ImageIcon closeIcon = new ImageIcon(getClass().getResource("../Images/close.png"));
     private final ImageIcon extendIcon = new ImageIcon(getClass().getResource("../Images/extend.png"));
     private final ImageIcon miniIcon = new ImageIcon(getClass().getResource("../Images/mini.png"));
@@ -43,8 +41,12 @@ public class Window extends JFrame {
     private final ImageIcon[] featureIcon = new ImageIcon[]{
         new ImageIcon(getClass().getResource("../Images/home.png")),
         new ImageIcon(getClass().getResource("../Images/add.png")),};
-    private final String[] cardName = new String[]{"Home", "Add"};
+    private final String[] cardName = new String[]{"Home", "Add", "Update", "Setting"};
     private final Font dateTimeFont = new Font("Monospaced", 1, 24);
+    private final ImageIcon leftIcon = new ImageIcon(getClass().getResource("../Images/left.png"));
+    private final ImageIcon rightIcon = new ImageIcon(getClass().getResource("../Images/right.png"));
+    private final ImageIcon dayIcon = new ImageIcon(getClass().getResource("../Images/day.png"));
+    private final ImageIcon nightIcon = new ImageIcon(getClass().getResource("../Images/night.png"));
 
     private Dimension currentSize = new Dimension(1024, 720);
     private Point currentLocation;
@@ -60,7 +62,6 @@ public class Window extends JFrame {
     private FeatureItem[] feature;
     private JPanel centerOfCenter;
     private CardLayout cocLayout;
-    private Card[] card;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public Window() {
@@ -132,9 +133,14 @@ public class Window extends JFrame {
         hide.setPreferredSize(new Dimension(36, 36));
         controlPanel.add(hide);
 
+        JPanel settingPanel = new JPanel(new FlowLayout(3, 7, 7));
+        settingPanel.setPreferredSize(new Dimension(50, 50));
+        settingPanel.setOpaque(false);
+        east.add(settingPanel, "South");
+
         setting = new JLabel(ImageSupport.getSizedIcon(settingIcon, 24, 24));
-        setting.setPreferredSize(new Dimension(50, 50));
-        east.add(setting, "South");
+        setting.setPreferredSize(new Dimension(36, 36));
+        settingPanel.add(setting);
     }
 
     private void northCenterPanel(JPanel center) {
@@ -165,17 +171,13 @@ public class Window extends JFrame {
         /* Date */
         LocalDate localDate = LocalDate.now();
 
-        JPanel date = new JPanel(new BorderLayout(0, 0));
-        date.setOpaque(false);
-        dateTimePanel.add(date);
-
         JLabel dateLabel = new JLabel(localDate.getDayOfWeek() + ", " + localDate.getMonth() + " " + localDate.getDayOfMonth() + ", " + localDate.getYear(), 0);
         dateLabel.setFont(dateTimeFont);
         dateLabel.setForeground(Color.white);
-        date.add(dateLabel, "Center");
+        dateTimePanel.add(dateLabel);
 
         /* Time */
-        RealTimePanel clock = new RealTimePanel();
+        RealTimePanel clock = new RealTimePanel(dayIcon, nightIcon);
         clock.setClockFont(dateTimeFont);
         clock.setClockForeground(Color.white);
         clock.setOpaque(false);
@@ -189,19 +191,12 @@ public class Window extends JFrame {
         centerOfCenter.setOpaque(false);
         center.add(centerOfCenter, "Center");
 
-        card = new Card[2];
-        card[0] = new Home(cardName[0], this);
-        card[1] = new Add(cardName[1]);
-
-        for (Card c : card) {
-            centerOfCenter.add(c, c.getCardName());
-        }
-        
         /* remove */
-        cocLayout.show(centerOfCenter, "Add");
+//        cocLayout.show(centerOfCenter, "Update");
     }
 
-    // Getter
+    // Method
+    // Getter    
     public JLabel getClose() {
         return close;
     }
@@ -212,6 +207,10 @@ public class Window extends JFrame {
 
     public JLabel getHide() {
         return hide;
+    }
+
+    public JLabel getSetting() {
+        return setting;
     }
 
     public ImageIcon getExtendIcon() {
@@ -260,10 +259,6 @@ public class Window extends JFrame {
 
     public CardLayout getCocLayout() {
         return cocLayout;
-    }
-
-    public Card[] getCard() {
-        return card;
     }
 
     // Setter

@@ -58,18 +58,18 @@ public class BUSFeature {
                 public void mouseClicked(MouseEvent e) {
                     switch (f.getIndex()) {
                         case 0 -> {
-                            System.out.println("Click Home");
+                            System.out.println("[BUSFeature]: Click Home");
                             window.getCocLayout().show(window.getCenterOfCenter(), "Home");
                         }
                         case 1 -> {
-                            System.out.println("Click Add");
+                            System.out.println("[BUSFeature]: Click Add");
                             window.getCocLayout().show(window.getCenterOfCenter(), "Add");
                         }
                         case 2 -> {
-                            System.out.println("Click " + f.getIndex());
+                            System.out.println("[BUSFeature]: Click " + f.getIndex());
                         }
                         case 3 -> {
-                            System.out.println("Click " + f.getIndex());
+                            System.out.println("[BUSFeature]: Click " + f.getIndex());
                         }
                         default ->
                             throw new AssertionError();

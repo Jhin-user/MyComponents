@@ -3,8 +3,10 @@ package RunAsWindowsUI;
 import MyComponents.BUSMyTable;
 import MyComponents.MyAvatar;
 import MyComponents.MyTable;
+import MyComponents.MyTransparentcyCombobox;
 import MyComponents.RadiusPanel;
 import MyComponents.RealTimePanel;
+import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -38,6 +40,8 @@ public class RunTheGUI extends JFrame {
 
     private JPanel backgroundPanel;
 
+    private JDateChooser dateChooser;
+
     public RunTheGUI() {
         setDefaultCloseOperation(3);
         setSize(1024, 720);
@@ -57,11 +61,34 @@ public class RunTheGUI extends JFrame {
         };
         backgroundPanel.setPreferredSize(new Dimension(getWidth() - 16, getHeight() - 40));
         backgroundPanel.setOpaque(false);
+        backgroundPanel.addMouseListener(new MouseAdapter() {
+            private static final long DOUBLE_CLICK_TIME_THRESHOLD = 300; // Thời gian giới hạn để xem là double-click (tính theo mili giây)
+            private long lastClickTime = 0;
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                long currentTime = System.currentTimeMillis();
+
+                if (currentTime - lastClickTime < DOUBLE_CLICK_TIME_THRESHOLD) {
+                    // Double-click đã xảy ra
+                    handleDoubleClick();
+                }
+
+                lastClickTime = currentTime;
+            }
+
+            private void handleDoubleClick() {
+                System.out.println("Double Clicked! Exited");
+                System.exit(0);
+            }
+        });
         add(backgroundPanel, "Center");
 
         /* -------------------- Components -------------------- */
-        int component = 0;
+        int component = 7;
         switch (component) {
+            case -1 ->
+                createDateChooser();
             case 0 ->
                 creatMyTable();
             case 1 ->
@@ -76,6 +103,8 @@ public class RunTheGUI extends JFrame {
                 createRadiusPanel();
             case 6 ->
                 createRealTimeClock();
+            case 7 ->
+                createTransparentcyCombobox();
             default -> {
                 System.out.println("No Components Choosen");
             }
@@ -94,6 +123,45 @@ public class RunTheGUI extends JFrame {
             });
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
         }
+    }
+
+    private void createDateChooser() {
+
+        dateChooser = new JDateChooser();
+        dateChooser.setPreferredSize(new Dimension(300, 40));
+        dateChooser.setFont(new Font("Consolas", 0, 16));
+        dateChooser.getCalendarButton().setIcon(new ImageIcon(getClass().getResource("../Images/find.png")));
+        backgroundPanel.add(dateChooser);
+
+        /*
+         * Calendar.DAY_OF_WEEK
+         * 0 - Monday ... 
+         * 
+         * Calendar.DAY_OF_MONTH
+         * 1 - 1 ...
+         * 
+         * Calendar.DAY_OF_WEEK_OF_MONTH
+         * day / 7 + 1
+         * 
+         * Calendar.WEEK_OF_MONTH by line
+         *                 1  2 -> line 1 -> 1
+         *  3  4  5  6  7  8  9 -> line 2 -> 2
+         * 10 11 12 13 14 15 16 -> line 3 -> 3
+         * 17 18 19 20 21 22 23 -> line 4 -> 4
+         * 24 25 26 27 28 29 30 -> line 5 -> 5
+         * 31                   -> line 6 -> 6
+         * 
+         * Calendar.DAY_OF_YEAR
+         * 1 ... 365
+         * 
+         * Calendar.MONTH
+         * January - 0
+         * ...
+         * December - 11
+         * 
+         * Calendar.YEAR
+         * year
+         */
     }
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -357,5 +425,12 @@ public class RunTheGUI extends JFrame {
         realTimePanel.setPreferredSize(new Dimension(50, 50));
         realTimePanel.setOpaque(false);
         backgroundPanel.add(realTimePanel);
+    }
+
+    private void createTransparentcyCombobox() {
+        MyTransparentcyCombobox transparentcyCombobox = new MyTransparentcyCombobox(new Integer[]{1, 2, 3});
+        transparentcyCombobox.setPreferredSize(new Dimension(200, 40));
+        transparentcyCombobox.setFont(new Font("Consolas", 1, 20));
+        backgroundPanel.add(transparentcyCombobox);
     }
 }

@@ -32,6 +32,7 @@ public class MyTable extends JTable {
         getTableHeader().setDefaultRenderer(headerRenderer);
 
         /* Table */
+        setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableRenderer = new DefaultTableCellRenderer();
         for (int i = 0; i < getColumnCount(); i++) {
             super.getColumnModel().getColumn(i).setCellRenderer(tableRenderer);

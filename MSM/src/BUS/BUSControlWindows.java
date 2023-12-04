@@ -1,9 +1,12 @@
 package BUS;
 
 import GUI.Window;
+import Images.ImageSupport;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.Month;
 
 /**
  *
@@ -19,6 +22,10 @@ public class BUSControlWindows {
     }
 
     private void events() {
+        controlWindows();
+    }
+
+    private void controlWindows() {
         window.getClose().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -51,6 +58,7 @@ public class BUSControlWindows {
                     window.setLocation(0, 0);
                     window.setWindowsState(1);
                     window.getBackgroundPanel().setBounds(0, 0, window.getFullScreenSize().width, window.getFullScreenSize().height);
+                    window.getExtend().setIcon(ImageSupport.getSizedIcon(window.getMiniIcon(), 24, 24));
                     return;
                 }
                 if (window.getWindowsState() == 1) {
@@ -59,6 +67,7 @@ public class BUSControlWindows {
                     window.setLocation(window.getCurrentLocation());
                     window.setWindowsState(0);
                     window.getBackgroundPanel().setBounds(0, 0, window.getCurrentSize().width, window.getCurrentSize().height);
+                    window.getExtend().setIcon(ImageSupport.getSizedIcon(window.getExtendIcon(), 24, 24));
                 }
             }
 
@@ -81,6 +90,7 @@ public class BUSControlWindows {
             @Override
             @SuppressWarnings("static-access")
             public void mouseClicked(MouseEvent e) {
+                System.out.println("[BUSControlWindows]: Hide windows");
                 window.setExtendedState(window.ICONIFIED);
             }
 
@@ -98,6 +108,32 @@ public class BUSControlWindows {
                 window.repaint();
             }
         });
+
+        window.getSetting().addMouseListener(new MouseAdapter() {
+            @Override
+            @SuppressWarnings("static-access")
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("[BUSControlWindows]: Setting");
+                window.getCocLayout().show(window.getCenterOfCenter(), "Setting");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                window.getSetting().setOpaque(true);
+                window.getSetting().setBackground(new Color(200, 200, 200, 120));
+                window.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                window.getSetting().setOpaque(false);
+                window.getSetting().setBackground(new Color(0, 0, 0, 0));
+                window.repaint();
+            }
+        });
     }
 
+    private void controlTab() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
