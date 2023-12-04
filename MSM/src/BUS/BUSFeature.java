@@ -1,13 +1,13 @@
 package BUS;
 
 import GUI.Window;
-import GUISupport.FeatureItem;
 import Images.ImageSupport;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import javax.swing.JLabel;
 
 /**
  *
@@ -15,6 +15,7 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class BUSFeature {
 
+    int temp = 0;
     private Window window;
     private int x, y;
     private MouseAdapter dragWindows;
@@ -50,26 +51,20 @@ public class BUSFeature {
         window.getFeaturePanel().addMouseMotionListener(dragWindowsMotion);
 
         /* -------------------- Feature events -------------------- */
-        for (FeatureItem f : window.getFeature()) {
-            f.addMouseListener(dragWindows);
-            f.addMouseMotionListener(dragWindowsMotion);
-            f.addMouseListener(new MouseAdapter() {
+        for (JLabel feature : window.getFeature()) {
+//            feature.addMouseListener(dragWindows);
+//            feature.addMouseMotionListener(dragWindowsMotion);
+            feature.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    switch (f.getIndex()) {
-                        case 0 -> {
-                            System.out.println("[BUSFeature]: Click Home");
-                            window.getCocLayout().show(window.getCenterOfCenter(), "Home");
+                    switch (feature.getName()) {
+                        case "Home" -> {
+                            System.out.println("[BUSFeature]: Home");
+                            window.getCardLayout().show(window.getCenterOfCenter(), feature.getName());
                         }
-                        case 1 -> {
-                            System.out.println("[BUSFeature]: Click Add");
-                            window.getCocLayout().show(window.getCenterOfCenter(), "Add");
-                        }
-                        case 2 -> {
-                            System.out.println("[BUSFeature]: Click " + f.getIndex());
-                        }
-                        case 3 -> {
-                            System.out.println("[BUSFeature]: Click " + f.getIndex());
+                        case "Add" -> {
+                            System.out.println("[BUSFeature]: Add");
+                            window.getCardLayout().show(window.getCenterOfCenter(), feature.getName());
                         }
                         default ->
                             throw new AssertionError();
@@ -78,42 +73,86 @@ public class BUSFeature {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    new Thread() {
-                        @Override
-                        @SuppressWarnings("SleepWhileInLoop")
-                        public void run() {
-                            for (int i = 31; i <= 40; i++) {
-                                f.setIcon(ImageSupport.getSizedIcon(window.getFeatureIcon()[f.getIndex()], i, i));
-                                f.setBackground(new Color(200, 200, 200, 100));
-                                f.setOpaque(true);
-                                window.repaint();
-                                try {
-                                    Thread.sleep(5);
-                                } catch (InterruptedException e) {
+                    switch (feature.getName()) {
+                        case "Home" ->
+                            new Thread() {
+                                @Override
+                                @SuppressWarnings("SleepWhileInLoop")
+                                public void run() {
+                                    for (int i = 31; i <= 40; i++) {
+                                        feature.setIcon(ImageSupport.getSizedIcon(window.getFeatureIcon()[0], i, i));
+                                        feature.setBackground(new Color(200, 200, 200, 100));
+                                        feature.setOpaque(true);
+                                        window.repaint();
+                                        try {
+                                            Thread.sleep(5);
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    }.start();
+                            }.start();
+                        case "Add" ->
+                            new Thread() {
+                                @Override
+                                @SuppressWarnings("SleepWhileInLoop")
+                                public void run() {
+                                    for (int i = 31; i <= 40; i++) {
+                                        feature.setIcon(ImageSupport.getSizedIcon(window.getFeatureIcon()[1], i, i));
+                                        feature.setBackground(new Color(200, 200, 200, 100));
+                                        feature.setOpaque(true);
+                                        window.repaint();
+                                        try {
+                                            Thread.sleep(5);
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
+                                }
+                            }.start();
+                        default ->
+                            throw new AssertionError();
+                    }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    new Thread() {
-                        @Override
-                        @SuppressWarnings("SleepWhileInLoop")
-                        public void run() {
-                            for (int i = 39; i >= 30; i--) {
-                                f.setIcon(ImageSupport.getSizedIcon(window.getFeatureIcon()[f.getIndex()], i, i));
-                                f.setBackground(new Color(0, 0, 0, 0));
-                                f.setOpaque(false);
-                                window.repaint();
-                                try {
-                                    Thread.sleep(5);
-                                } catch (InterruptedException e) {
+                    switch (feature.getName()) {
+                        case "Home" ->
+                            new Thread() {
+                                @Override
+                                @SuppressWarnings("SleepWhileInLoop")
+                                public void run() {
+                                    for (int i = 39; i >= 30; i--) {
+                                        feature.setIcon(ImageSupport.getSizedIcon(window.getFeatureIcon()[0], i, i));
+                                        feature.setBackground(new Color(0, 0, 0, 0));
+                                        feature.setOpaque(false);
+                                        window.repaint();
+                                        try {
+                                            Thread.sleep(5);
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                    }.start();
+                            }.start();
+                        case "Add" ->
+                            new Thread() {
+                                @Override
+                                @SuppressWarnings("SleepWhileInLoop")
+                                public void run() {
+                                    for (int i = 39; i >= 30; i--) {
+                                        feature.setIcon(ImageSupport.getSizedIcon(window.getFeatureIcon()[1], i, i));
+                                        feature.setBackground(new Color(0, 0, 0, 0));
+                                        feature.setOpaque(false);
+                                        window.repaint();
+                                        try {
+                                            Thread.sleep(5);
+                                        } catch (InterruptedException e) {
+                                        }
+                                    }
+                                }
+                            }.start();
+                        default ->
+                            throw new AssertionError();
+                    }
                 }
             });
         }

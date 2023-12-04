@@ -2,7 +2,6 @@ package GUI;
 
 import BUS.BUSControlWindows;
 import BUS.BUSFeature;
-import GUISupport.FeatureItem;
 import GUISupport.RealTimePanel;
 import Images.ImageSupport;
 import java.awt.BorderLayout;
@@ -38,13 +37,13 @@ public class Window extends JFrame {
     private final ImageIcon miniIcon = new ImageIcon(getClass().getResource("../Images/mini.png"));
     private final ImageIcon hideIcon = new ImageIcon(getClass().getResource("../Images/hide.png"));
     private final ImageIcon settingIcon = new ImageIcon(getClass().getResource("../Images/setting.png"));
+
+    private final String[] cardName = new String[]{"Home", "Add", "Update", "Setting"};
     private final ImageIcon[] featureIcon = new ImageIcon[]{
         new ImageIcon(getClass().getResource("../Images/home.png")),
         new ImageIcon(getClass().getResource("../Images/add.png")),};
-    private final String[] cardName = new String[]{"Home", "Add", "Update", "Setting"};
+
     private final Font dateTimeFont = new Font("Monospaced", 1, 24);
-    private final ImageIcon leftIcon = new ImageIcon(getClass().getResource("../Images/left.png"));
-    private final ImageIcon rightIcon = new ImageIcon(getClass().getResource("../Images/right.png"));
     private final ImageIcon dayIcon = new ImageIcon(getClass().getResource("../Images/day.png"));
     private final ImageIcon nightIcon = new ImageIcon(getClass().getResource("../Images/night.png"));
 
@@ -59,9 +58,11 @@ public class Window extends JFrame {
 
     private JLabel close, extend, hide, setting;
     private JPanel featurePanel;
-    private FeatureItem[] feature;
+    private JLabel[] feature;
     private JPanel centerOfCenter;
-    private CardLayout cocLayout;
+    private CardLayout cardLayout;
+    private Home home;
+    private Add add;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public Window() {
@@ -98,7 +99,7 @@ public class Window extends JFrame {
         eastPanel();
 
         /* ---------- Center ---------- */
-        JPanel center = new JPanel(new BorderLayout(0, 5));
+        JPanel center = new JPanel(new BorderLayout(0, 0));
         center.setOpaque(false);
         backgroundPanel.add(center, "Center");
 
@@ -144,25 +145,26 @@ public class Window extends JFrame {
     }
 
     private void northCenterPanel(JPanel center) {
-        /* North of Center */
-        JPanel centerNorth = new JPanel(new GridLayout(2, 1, 0, 5));
-        centerNorth.setPreferredSize(new Dimension(0, 120));
+        /* ---------- North of Center ---------- */
+        JPanel centerNorth = new JPanel(new GridLayout(3, 1, 0, 5));
+        centerNorth.setPreferredSize(new Dimension(0, 180));
         centerNorth.setOpaque(false);
         center.add(centerNorth, "North");
 
-        /* Feature */
+        /* ---------- Row 0 - Feature ---------- */
         featurePanel = new JPanel(new FlowLayout(1, 5, 0));
         featurePanel.setOpaque(false);
         centerNorth.add(featurePanel);
 
-        feature = new FeatureItem[2];
+        feature = new JLabel[2];
         for (int i = 0; i < feature.length; i++) {
-            feature[i] = new FeatureItem(ImageSupport.getSizedIcon(featureIcon[i], 30, 30), i);
+            feature[i] = new JLabel(ImageSupport.getSizedIcon(featureIcon[i], 30, 30));
             feature[i].setPreferredSize(new Dimension(60, 60));
+            feature[i].setName(cardName[i]);
             featurePanel.add(feature[i]);
         }
 
-        /* ---------- Date and Time ---------- */
+        /* ---------- Row 1 - Date and Time ---------- */
         JPanel dateTimePanel = new JPanel(new GridLayout(1, 2));
         dateTimePanel.setPreferredSize(new Dimension(0, 60));
         dateTimePanel.setOpaque(false);
@@ -182,20 +184,29 @@ public class Window extends JFrame {
         clock.setClockForeground(Color.white);
         clock.setOpaque(false);
         dateTimePanel.add(clock);
+
+        /* ---------- Row 2 - Search, Back ---------- */
+        JPanel filterPanel = new JPanel();
+        filterPanel.setPreferredSize(new Dimension(0, 60));
+        centerNorth.add(filterPanel);
     }
 
     private void centerCenterPanel(JPanel center) {
-        cocLayout = new CardLayout(0, 0);
+        cardLayout = new CardLayout(0, 0);
 
-        centerOfCenter = new JPanel(cocLayout);
+        centerOfCenter = new JPanel(cardLayout);
         centerOfCenter.setOpaque(false);
         center.add(centerOfCenter, "Center");
 
-        /* remove */
-//        cocLayout.show(centerOfCenter, "Update");
+        home = new Home(this);
+        home.setName("Home");
+        centerOfCenter.add(home, home.getName());
+
+        add = new Add(this);
+        add.setName("Add");
+        centerOfCenter.add(add, add.getName());
     }
 
-    // Method
     // Getter    
     public JLabel getClose() {
         return close;
@@ -211,6 +222,10 @@ public class Window extends JFrame {
 
     public JLabel getSetting() {
         return setting;
+    }
+
+    public JPanel getFeaturePanel() {
+        return featurePanel;
     }
 
     public ImageIcon getExtendIcon() {
@@ -241,11 +256,7 @@ public class Window extends JFrame {
         return backgroundPanel;
     }
 
-    public JPanel getFeaturePanel() {
-        return featurePanel;
-    }
-
-    public FeatureItem[] getFeature() {
+    public JLabel[] getFeature() {
         return feature;
     }
 
@@ -257,8 +268,12 @@ public class Window extends JFrame {
         return centerOfCenter;
     }
 
-    public CardLayout getCocLayout() {
-        return cocLayout;
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public Home getHome() {
+        return home;
     }
 
     // Setter

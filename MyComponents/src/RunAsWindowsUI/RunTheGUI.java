@@ -114,16 +114,16 @@ public class RunTheGUI extends JFrame {
         revalidate();
     }
 
-    @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            EventQueue.invokeLater(() -> {
-                new RunTheGUI();
-            });
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
-        }
-    }
+//    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+//    public static void main(String[] args) {
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//            EventQueue.invokeLater(() -> {
+//                new RunTheGUI();
+//            });
+//        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+//        }
+//    }
 
     private void createDateChooser() {
 
