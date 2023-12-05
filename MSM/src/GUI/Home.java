@@ -1,6 +1,6 @@
 package GUI;
 
-import DTO.Item;
+import BUS.BUSHome;
 import DataList.ListItem;
 import GUISupport.MyTable;
 import Support.DataSupport;
@@ -12,8 +12,6 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,6 +28,7 @@ public class Home extends JPanel {
 
     private MyTable table;
 
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public Home(Window window) {
         this.window = window;
         this.repaint = new MouseMotionAdapter() {
@@ -39,6 +38,7 @@ public class Home extends JPanel {
             }
         };
         initComponents();
+        new BUSHome(this);
     }
 
     private void initComponents() {
@@ -81,6 +81,7 @@ public class Home extends JPanel {
         table.setHeadersProperties(new Color(0, 175, 235, 150), Color.white, new Font("Monospaced", 1, 20), 30);
         table.setTableProperties(new Color(100, 100, 100, 150), Color.white, new Font("Consolas", 0, 18), 50);
         table.setData(DataSupport.toObjectData(ListItem.getListItem()));
+        table.setSelectedRowColor(new Color(255, 192, 203, 150));
         jsp.setViewportView(table);
 
         table.getTableHeader().addMouseListener(new MouseAdapter() {
@@ -94,6 +95,10 @@ public class Home extends JPanel {
     }
 
     // Getter
+    public Window getWindow() {
+        return window;
+    }
+
     public MyTable getTable() {
         return table;
     }

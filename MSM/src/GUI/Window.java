@@ -32,6 +32,7 @@ public class Window extends JFrame {
     private final Rectangle screenRect = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     private final Dimension fullScreenSize = new Dimension(screenRect.width, screenRect.height);
     private final Image image = new ImageIcon(getClass().getResource("../Images/Viego.png")).getImage();
+    private final Image windowsIcon = new ImageIcon(getClass().getResource("../Images/search.png")).getImage();
     private final ImageIcon closeIcon = new ImageIcon(getClass().getResource("../Images/close.png"));
     private final ImageIcon extendIcon = new ImageIcon(getClass().getResource("../Images/extend.png"));
     private final ImageIcon miniIcon = new ImageIcon(getClass().getResource("../Images/mini.png"));
@@ -63,10 +64,12 @@ public class Window extends JFrame {
     private CardLayout cardLayout;
     private Home home;
     private Add add;
+    private Update update;
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public Window() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setIconImage(windowsIcon);
         setSize(currentSize);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -189,6 +192,8 @@ public class Window extends JFrame {
         JPanel filterPanel = new JPanel();
         filterPanel.setPreferredSize(new Dimension(0, 60));
         centerNorth.add(filterPanel);
+
+        filterPanel.add(new JLabel("from day to day; sort by id, sort by day, sort by price"));
     }
 
     private void centerCenterPanel(JPanel center) {
@@ -201,10 +206,19 @@ public class Window extends JFrame {
         home = new Home(this);
         home.setName("Home");
         centerOfCenter.add(home, home.getName());
+    }
 
+    // Method
+    public void newAdd() {
         add = new Add(this);
         add.setName("Add");
         centerOfCenter.add(add, add.getName());
+    }
+
+    public void newUpdate() {
+        update = new Update();
+        update.setName("Update");
+        centerOfCenter.add(update, update.getName());
     }
 
     // Getter    

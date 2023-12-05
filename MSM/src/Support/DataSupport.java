@@ -15,10 +15,10 @@ public class DataSupport {
 
         int index = 0;
         for (Item i : list) {
-            if (i.isIsItem()) {
-                data[index++] = new String[]{i.getId(), i.getItem(), toDataTime(i.getDateTime()), i.getCount() + "item", i.getPrice() + "vnđ"};
-            } else {
-                data[index++] = new String[]{i.getId(), i.getItem(), toDataTime(i.getDateTime()), i.getCount() + "kg", i.getPrice() + "vnđ"};
+            if (i.getCount() % (int) i.getCount() == 0) {
+                data[index++] = new String[]{i.getId(), i.getItem(), toDataTime(i.getDateTime()), (int) i.getCount() + (i.isIsItem() ? " item" : " kg"), i.getPrice() + " vnđ"};
+            }else{
+                data[index++] = new String[]{i.getId(), i.getItem(), toDataTime(i.getDateTime()), i.getCount() + (i.isIsItem() ? " item" : " kg"), i.getPrice() + " vnđ"};
             }
         }
 

@@ -64,6 +64,7 @@ public class BUSFeature {
                         }
                         case "Add" -> {
                             System.out.println("[BUSFeature]: Add");
+                            window.newAdd();
                             window.getCardLayout().show(window.getCenterOfCenter(), feature.getName());
                         }
                         default ->

@@ -85,7 +85,7 @@ public class RunTheGUI extends JFrame {
         add(backgroundPanel, "Center");
 
         /* -------------------- Components -------------------- */
-        int component = 7;
+        int component = 8;
         switch (component) {
             case -1 ->
                 createDateChooser();
@@ -105,6 +105,8 @@ public class RunTheGUI extends JFrame {
                 createRealTimeClock();
             case 7 ->
                 createTransparentcyCombobox();
+            case 8 ->
+                myCombobox();
             default -> {
                 System.out.println("No Components Choosen");
             }
@@ -114,16 +116,16 @@ public class RunTheGUI extends JFrame {
         revalidate();
     }
 
-//    @SuppressWarnings("ResultOfObjectAllocationIgnored")
-//    public static void main(String[] args) {
-//        try {
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//            EventQueue.invokeLater(() -> {
-//                new RunTheGUI();
-//            });
-//        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
-//        }
-//    }
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            EventQueue.invokeLater(() -> {
+                new RunTheGUI();
+            });
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+        }
+    }
 
     private void createDateChooser() {
 
@@ -432,5 +434,8 @@ public class RunTheGUI extends JFrame {
         transparentcyCombobox.setPreferredSize(new Dimension(200, 40));
         transparentcyCombobox.setFont(new Font("Consolas", 1, 20));
         backgroundPanel.add(transparentcyCombobox);
+    }
+
+    private void myCombobox() {
     }
 }

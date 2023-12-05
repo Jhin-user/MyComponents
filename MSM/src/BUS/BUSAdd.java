@@ -102,6 +102,7 @@ public class BUSAdd {
 //                System.out.println("New Item: " + insertItem);
                 ListItem.add(insertItem);
                 add.getWindow().getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                add.getWindow().getCardLayout().show(add.getWindow().getCenterOfCenter(), "Home");
                 DAOItem.GetInstance().Insert(insertItem);
 
                 /* -------------------- Show Info -------------------- */
