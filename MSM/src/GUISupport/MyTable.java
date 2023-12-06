@@ -119,6 +119,12 @@ public class MyTable extends JTable {
         this.selectedRowColor = selectedRowColor;
     }
 
+    public void clearSelectedRow() {
+        for (int i = 0; i < getColumnCount(); i++) {
+            super.getColumnModel().getColumn(i).setCellRenderer(tableRenderer);
+        }
+    }
+
     public void selectedRow(int selectedRow) {
         selectedRowRenderer = new DefaultTableCellRenderer() {
             @Override

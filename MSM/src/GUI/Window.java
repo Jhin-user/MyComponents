@@ -1,7 +1,9 @@
 package GUI;
 
+import BUS.BUSControlTable;
 import BUS.BUSControlWindows;
 import BUS.BUSFeature;
+import GUISupport.RadiusPanel;
 import GUISupport.RealTimePanel;
 import Images.ImageSupport;
 import java.awt.BorderLayout;
@@ -19,6 +21,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.time.LocalDate;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,6 +51,9 @@ public class Window extends JFrame {
     private final ImageIcon dayIcon = new ImageIcon(getClass().getResource("../Images/day.png"));
     private final ImageIcon nightIcon = new ImageIcon(getClass().getResource("../Images/night.png"));
 
+    private final ImageIcon backIcon = new ImageIcon(getClass().getResource("../Images/left.png"));
+    private final ImageIcon clearIcon = new ImageIcon(getClass().getResource("../Images/clear.png"));
+
     private Dimension currentSize = new Dimension(1024, 720);
     private Point currentLocation;
     /**
@@ -58,9 +64,18 @@ public class Window extends JFrame {
     private JPanel backgroundPanel;
 
     private JLabel close, extend, hide, setting;
+
     private JPanel featurePanel;
     private JLabel[] feature;
-    private JPanel centerOfCenter;
+
+    private JPanel controlTable;
+    private CardLayout controlLayout;
+    private JPanel filterPanel, addressPanel;
+    private JComboBox<String> sortCbb, filterCbb;
+    private JLabel clearSortFilter;
+    private JLabel backLabel, addressLabel;
+
+    private JPanel centerNorth, centerOfCenter;
     private CardLayout cardLayout;
     private Home home;
     private Add add;
@@ -149,7 +164,7 @@ public class Window extends JFrame {
 
     private void northCenterPanel(JPanel center) {
         /* ---------- North of Center ---------- */
-        JPanel centerNorth = new JPanel(new GridLayout(3, 1, 0, 5));
+        centerNorth = new JPanel(new GridLayout(3, 1, 0, 5));
         centerNorth.setPreferredSize(new Dimension(0, 180));
         centerNorth.setOpaque(false);
         center.add(centerNorth, "North");
@@ -188,12 +203,16 @@ public class Window extends JFrame {
         clock.setOpaque(false);
         dateTimePanel.add(clock);
 
-        /* ---------- Row 2 - Search, Back ---------- */
-        JPanel filterPanel = new JPanel();
-        filterPanel.setPreferredSize(new Dimension(0, 60));
-        centerNorth.add(filterPanel);
+        /* ---------- Row 2 - Filter, Address ---------- */
+        controlLayout = new CardLayout(0, 0);
 
-        filterPanel.add(new JLabel("from day to day; sort by id, sort by day, sort by price"));
+        controlTable = new JPanel(controlLayout);
+        controlTable.setPreferredSize(new Dimension(0, 60));
+        controlTable.setOpaque(false);
+        centerNorth.add(controlTable);
+
+        /* FilterPanel */
+        newFilter();
     }
 
     private void centerCenterPanel(JPanel center) {
@@ -213,15 +232,101 @@ public class Window extends JFrame {
         add = new Add(this);
         add.setName("Add");
         centerOfCenter.add(add, add.getName());
+        cardLayout.show(centerOfCenter, add.getName());
     }
 
     public void newUpdate() {
-        update = new Update();
+        update = new Update(this);
         update.setName("Update");
         centerOfCenter.add(update, update.getName());
+        cardLayout.show(centerOfCenter, update.getName());
     }
 
-    // Getter    
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    public void newFilter() {
+        filterPanel = new JPanel(new FlowLayout(3, 20, 5));
+        filterPanel.setName("Filter");
+        filterPanel.setOpaque(false);
+
+        /* ---------- Sort ---------- */
+        sortCbb = new JComboBox<>(new String[]{"ID(a)", "ID(d)", "Day(a)", "Day(d)"});
+        sortCbb.setPreferredSize(new Dimension(150, 50));
+        sortCbb.setFont(new Font("Monospaced", 1, 20));
+        sortCbb.setSelectedIndex(-1);
+        filterPanel.add(sortCbb);
+
+        /* ---------- Filter isItem ---------- */
+        filterCbb = new JComboBox<>(new String[]{"Items", "Kg"});
+        filterCbb.setPreferredSize(new Dimension(150, 50));
+        filterCbb.setFont(new Font("Monospaced", 1, 20));
+        filterCbb.setSelectedIndex(-1);
+        filterPanel.add(filterCbb);
+
+        /* ---------- Clear ---------- */
+        clearSortFilter = new JLabel(ImageSupport.getSizedIcon(clearIcon, 35, 35));
+        clearSortFilter.setPreferredSize(new Dimension(50, 50));
+        filterPanel.add(clearSortFilter);
+
+        /* ----------  ---------- */
+        controlTable.add(filterPanel, filterPanel.getName());
+        controlLayout.show(controlTable, filterPanel.getName());
+
+        new BUSControlTable(this);
+    }
+
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    public void newAddress(String locate) {
+        addressPanel = new JPanel(new BorderLayout(20, 0));
+        addressPanel.setName("Filter");
+        addressPanel.setOpaque(false);
+        centerNorth.add(addressPanel);
+
+        backLabel = new JLabel(ImageSupport.getSizedIcon(backIcon, 30, 30));
+        backLabel.setPreferredSize(new Dimension(60, 60));
+        addressPanel.add(backLabel, "West");
+
+        RadiusPanel addressBorder = new RadiusPanel(40, 3, new Color(0, 0, 0, 0), new Color[]{
+            new Color(149, 255, 0, 150),
+            new Color(0, 255, 157, 150),
+            new Color(255, 128, 0, 150),
+            new Color(238, 255, 0, 150)
+        });
+        addressBorder.setLayout(new FlowLayout(3, 20, 5));
+        addressPanel.add(addressBorder, "Center");
+
+        addressLabel = new JLabel("Home > " + locate);
+        addressLabel.setFont(new Font("Monospaced", 1, 20));
+        addressLabel.setPreferredSize(new Dimension(600, 40));
+        addressLabel.setForeground(Color.white);
+        addressBorder.add(addressLabel);
+
+        controlTable.add(addressPanel, addressPanel.getName());
+        controlLayout.show(controlTable, addressPanel.getName());
+
+        new BUSControlTable(this);
+    }
+
+    // Getter
+    public Dimension getFullScreenSize() {
+        return fullScreenSize;
+    }
+
+    public Dimension getCurrentSize() {
+        return currentSize;
+    }
+
+    public Point getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public int getWindowsState() {
+        return windowsState;
+    }
+
+    public JPanel getBackgroundPanel() {
+        return backgroundPanel;
+    }
+
     public JLabel getClose() {
         return close;
     }
@@ -242,40 +347,40 @@ public class Window extends JFrame {
         return featurePanel;
     }
 
-    public ImageIcon getExtendIcon() {
-        return extendIcon;
-    }
-
-    public ImageIcon getMiniIcon() {
-        return miniIcon;
-    }
-
-    public Dimension getFullScreenSize() {
-        return fullScreenSize;
-    }
-
-    public Dimension getCurrentSize() {
-        return currentSize;
-    }
-
-    public int getWindowsState() {
-        return windowsState;
-    }
-
-    public Point getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public JPanel getBackgroundPanel() {
-        return backgroundPanel;
-    }
-
     public JLabel[] getFeature() {
         return feature;
     }
 
-    public ImageIcon[] getFeatureIcon() {
-        return featureIcon;
+    public CardLayout getControlLayout() {
+        return controlLayout;
+    }
+
+    public JPanel getAddressPanel() {
+        return addressPanel;
+    }
+
+    public JComboBox<String> getSortCbb() {
+        return sortCbb;
+    }
+
+    public JComboBox<String> getFilterCbb() {
+        return filterCbb;
+    }
+
+    public JLabel getClearSortFilter() {
+        return clearSortFilter;
+    }
+
+    public JLabel getBackLabel() {
+        return backLabel;
+    }
+
+    public JLabel getAddressLabel() {
+        return addressLabel;
+    }
+
+    public JPanel getCenterNorth() {
+        return centerNorth;
     }
 
     public JPanel getCenterOfCenter() {
@@ -286,8 +391,40 @@ public class Window extends JFrame {
         return cardLayout;
     }
 
+    public ImageIcon getExtendIcon() {
+        return extendIcon;
+    }
+
+    public ImageIcon getMiniIcon() {
+        return miniIcon;
+    }
+
+    public ImageIcon getDayIcon() {
+        return dayIcon;
+    }
+
+    public ImageIcon getNightIcon() {
+        return nightIcon;
+    }
+
     public Home getHome() {
         return home;
+    }
+
+    public Add getAdd() {
+        return add;
+    }
+
+    public Update getUpdate() {
+        return update;
+    }
+
+    public ImageIcon[] getFeatureIcon() {
+        return featureIcon;
+    }
+
+    public JPanel getFilterPanel() {
+        return filterPanel;
     }
 
     // Setter

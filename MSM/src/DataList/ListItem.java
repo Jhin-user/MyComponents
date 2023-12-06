@@ -8,10 +8,12 @@ import java.util.ArrayList;
  *
  * @author Jhin
  */
+@SuppressWarnings("StaticNonFinalUsedInInitialization")
 public class ListItem {
 
     /* Purpose for render */
     private static ArrayList<Item> listItem = DAOItem.GetInstance().SelectAll();
+    private static ArrayList<Item> listSortFilter = new ArrayList<>(listItem);
 
     public static void add(Item item) {
         listItem.add(item);
@@ -51,9 +53,23 @@ public class ListItem {
         return id;
     }
 
+    public static void renewListSortFilter() {
+        listSortFilter.clear();
+        listSortFilter = new ArrayList<>(listItem);
+    }
+
     // Getter
     public static ArrayList<Item> getListItem() {
         return listItem;
+    }
+
+    public static ArrayList<Item> getListSortFilter() {
+        return listSortFilter;
+    }
+
+    // Setter
+    public static void setListSortFilter(ArrayList<Item> listSortFilter) {
+        ListItem.listSortFilter = listSortFilter;
     }
 
 }

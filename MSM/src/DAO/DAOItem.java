@@ -59,7 +59,7 @@ public class DAOItem implements DAOInterface<Item> {
         try {
             Connection connection = ConnectionDatabase.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
-            
+
             ps.setString(1, item.getId());
             ps.setString(2, item.getItem());
             ps.setObject(3, Timestamp.valueOf(item.getDateTime()));
@@ -74,17 +74,56 @@ public class DAOItem implements DAOInterface<Item> {
             connection.close();
         } catch (SQLException e) {
         }
+
+        return true;
+    }
+
+    @Override
+    @SuppressWarnings("ConvertToTryWithResources")
+    public boolean Update(Item item) {
+        String query = "update ITEM set item = ?, [dateTime] = ?, [count] = ?, isItem = ?, price = ? where ID = ?";
+
+        try {
+            Connection connection = ConnectionDatabase.GetConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ps.setString(1, item.getItem());
+            ps.setObject(2, Timestamp.valueOf(item.getDateTime()));
+            ps.setFloat(3, item.getCount());
+            ps.setBoolean(4, item.isIsItem());
+            ps.setInt(5, item.getPrice());
+            ps.setString(6, item.getId());
+            if (ps.executeUpdate() == 0) {
+                return false;
+            }
+
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+        }
         
         return true;
     }
 
     @Override
-    public boolean Update(Item item) {
-        return true;
-    }
+    @SuppressWarnings("ConvertToTryWithResources")
+    public boolean Delete(String itemId) {
+        String query = "delete ITEM where ID = ?";
 
-    @Override
-    public boolean Delete(Item item) {
+        try {
+            Connection connection = ConnectionDatabase.GetConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ps.setString(1, itemId);
+            if (ps.executeUpdate() == 0) {
+                return false;
+            }
+
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+        }
+        
         return true;
     }
 

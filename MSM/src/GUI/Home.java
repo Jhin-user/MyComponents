@@ -1,6 +1,7 @@
 package GUI;
 
 import BUS.BUSHome;
+import DTO.Item;
 import DataList.ListItem;
 import GUISupport.MyTable;
 import Support.DataSupport;
@@ -24,6 +25,7 @@ import javax.swing.UIManager;
 public class Home extends JPanel {
 
     private Window window;
+    private Item itemUpdate;
     private MouseMotionAdapter repaint;
 
     private MyTable table;
@@ -99,8 +101,17 @@ public class Home extends JPanel {
         return window;
     }
 
+    public Item getItemUpdate() {
+        return itemUpdate;
+    }
+
     public MyTable getTable() {
         return table;
+    }
+
+    // Setter
+    public void setItemUpdate(Item itemUpdate) {
+        this.itemUpdate = itemUpdate;
     }
 
 }

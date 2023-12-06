@@ -1,15 +1,20 @@
 package BUS;
 
+import DAO.DAOItem;
+import DTO.Item;
+import DataList.ListItem;
 import GUI.Home;
 import Images.ImageSupport;
+import Support.DataSupport;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -23,7 +28,7 @@ public class BUSHome {
     private Home home;
     private JPopupMenu rightClick;
     private JMenuItem update, delete;
-    
+
     private int selectedRow;
 
     public BUSHome(Home home) {
@@ -33,7 +38,7 @@ public class BUSHome {
     }
 
     private void initComponents() {
-        rightClick = new JPopupMenu("test");
+        rightClick = new JPopupMenu();
 
         update = new JMenuItem("Update", ImageSupport.getSizedIcon(updateIcon, 30, 30));
         delete = new JMenuItem("Delete", ImageSupport.getSizedIcon(deleteIcon, 30, 30));
@@ -53,7 +58,7 @@ public class BUSHome {
             public void mousePressed(MouseEvent e) {
                 selectedRow = home.getTable().rowAtPoint(e.getPoint());
                 home.getTable().selectedRow(selectedRow);
-                
+
                 /* Chuột phải */
                 if (SwingUtilities.isRightMouseButton(e)) {
                     /* home.getComponent() ~ home.getTable() */
@@ -67,11 +72,55 @@ public class BUSHome {
         /* ---------- Items events ---------- */
         update.addActionListener((ActionEvent e) -> {
             System.out.println("[BUSHome]: Update " + selectedRow);
+            home.getWindow().newAddress("Update");
+
+            /* ---------- Get Item for update ---------- */
+            // Row data
+            if (selectedRow != -1) {
+                String rowId = home.getTable().getTableModel().getValueAt(selectedRow, 0).toString();
+
+                /* ---------- Tìm item có id để set itemUpdate ---------- */
+                for (Item i : ListItem.getListItem()) {
+                    if (i.getId().equals(rowId)) {
+                        home.setItemUpdate(i);
+                        break;
+                    }
+                }
+            } else {
+                home.setItemUpdate(null);
+            }
+
+            home.getWindow().newUpdate();
         });
 
         delete.addActionListener((ActionEvent e) -> {
             System.out.println("[BUSHome]: Delete " + selectedRow);
+            String deleteId = home.getTable().getValueAt(selectedRow, 0).toString();
+
+            UIManager.put("OptionPane.yesButtonText", "Có");
+            UIManager.put("OptionPane.noButtonText", "Không");
+            UIManager.put("OptionPane.cancelButtonText", "Hủy");
+
+            System.out.print("[BUSHome]: Option: ");
+            switch (JOptionPane.showConfirmDialog(null, "Xác nhận xóa item", "Xóa item?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.YES_NO_CANCEL_OPTION, ImageSupport.getSizedIcon(deleteIcon, 48, 48))) {
+                case JOptionPane.YES_OPTION -> {
+                    System.out.println("Yes");
+                    ListItem.delete(deleteId);
+                    home.getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                    DAOItem.GetInstance().Delete(deleteId);
+                }
+                case JOptionPane.NO_OPTION -> {
+                    System.out.println("No");
+                }
+                case JOptionPane.CANCEL_OPTION -> {
+                    System.out.println("Cancel");
+                }
+                case JOptionPane.CLOSED_OPTION -> {
+                    System.out.println("Close");
+                }
+                default ->
+                    throw new AssertionError();
+            }
         });
     }
-
 }

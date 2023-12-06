@@ -15,5 +15,5 @@ public interface DAOInterface<T> {
 
     public boolean Update(T item);
 
-    public boolean Delete(T item);
+    public boolean Delete(String itemId);
 }

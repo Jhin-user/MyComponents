@@ -30,12 +30,13 @@ public class Add extends JPanel {
 
     private final Font labelFont = new Font("Monospaced", 1, 20);
     private final Font fieldFont = new Font("Monospaced", 0, 18);
-    private final ImageIcon addTemp = new ImageIcon(getClass().getResource("../Images/add.png"));
+    private final ImageIcon addIcon = new ImageIcon(getClass().getResource("../Images/add.png"));
 
     private Window window;
 
     private JComboBox<Integer> dayChooser, yearChooser;
     private JComboBox<String> monthChooser;
+    private JLabel errorLabel;
     private JTextField item, count, price, thousand;
     private JCheckBox number, kg;
     private RadiusPanel addBorder;
@@ -126,8 +127,20 @@ public class Add extends JPanel {
         center.setOpaque(false);
         add(center, "Center");
 
-        /* Temp */
-        center.add(new JLabel());
+        /* Error */
+        JPanel errorPanel = new JPanel(new FlowLayout(3, 0, 0));
+        errorPanel.setOpaque(false);
+        center.add(errorPanel);
+        
+        errorPanel.add(new JLabel() {
+            {
+                setPreferredSize(new Dimension(40, 50));
+            }
+        });
+        errorLabel = new JLabel();
+        errorLabel.setFont(new Font("Monospaced", 1, 18));
+        errorLabel.setForeground(new Color(255, 0, 0, 175));
+        errorPanel.add(errorLabel);
 
         /* Item */
         JPanel itemPanel = new JPanel(new FlowLayout(3, 0, 0));
@@ -293,7 +306,7 @@ public class Add extends JPanel {
         addBorder.setLayout(new FlowLayout(3, 20, 10));
         south.add(addBorder);
 
-        add = new JLabel(" Add", ImageSupport.getSizedIcon(addTemp, 35, 35), 0);
+        add = new JLabel(" Add", ImageSupport.getSizedIcon(addIcon, 35, 35), 0);
         add.setPreferredSize(new Dimension(100, 40));
         add.setFont(labelFont);
         add.setForeground(Color.white);

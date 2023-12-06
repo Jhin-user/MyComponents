@@ -15,7 +15,6 @@ import javax.swing.JLabel;
  */
 public class BUSFeature {
 
-    int temp = 0;
     private Window window;
     private int x, y;
     private MouseAdapter dragWindows;
@@ -61,11 +60,12 @@ public class BUSFeature {
                         case "Home" -> {
                             System.out.println("[BUSFeature]: Home");
                             window.getCardLayout().show(window.getCenterOfCenter(), feature.getName());
+                            window.newFilter();
                         }
                         case "Add" -> {
                             System.out.println("[BUSFeature]: Add");
                             window.newAdd();
-                            window.getCardLayout().show(window.getCenterOfCenter(), feature.getName());
+                            window.newAddress("Add");
                         }
                         default ->
                             throw new AssertionError();

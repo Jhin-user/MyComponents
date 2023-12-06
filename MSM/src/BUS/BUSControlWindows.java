@@ -130,8 +130,4 @@ public class BUSControlWindows {
             }
         });
     }
-
-    private void controlTab() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

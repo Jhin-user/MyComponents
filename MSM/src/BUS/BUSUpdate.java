@@ -3,7 +3,7 @@ package BUS;
 import DAO.DAOItem;
 import DTO.Item;
 import DataList.ListItem;
-import GUI.Add;
+import GUI.Update;
 import Support.DataSupport;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -20,57 +20,57 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Jhin
  */
-public class BUSAdd {
+public class BUSUpdate {
 
-    private Add add;
+    private Update update;
 
-    public BUSAdd(Add add) {
-        this.add = add;
+    public BUSUpdate(Update update) {
+        this.update = update;
         events();
     }
 
     private void events() {
         /* ---------- Chuyển tháng, set lại ngày ---------- */
-        add.getMonthChooser().addItemListener((ItemEvent e) -> {
+        update.getMonthChooser().addItemListener((ItemEvent e) -> {
             // Kiểm tra sự kiện là ItemEvent.SELECTED (chỉ xử lý khi một mục được chọn)
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                int day = (int) add.getDayChooser().getSelectedItem();
-                int month = Integer.parseInt(((String) add.getMonthChooser().getSelectedItem()).substring(6));
-//                int month = Integer.parseInt(((String) add.getMonthChooser().getSelectedItem()).split(" ")[1]);
-                int year = (int) add.getYearChooser().getSelectedItem();
+                int day = (int) update.getDayChooser().getSelectedItem();
+                int month = Integer.parseInt(((String) update.getMonthChooser().getSelectedItem()).substring(6));
+//                int month = Integer.parseInt(((String) update.getMonthChooser().getSelectedItem()).split(" ")[1]);
+                int year = (int) update.getYearChooser().getSelectedItem();
 
-                add.getDayChooser().setModel(new DefaultComboBoxModel<>(toIntegerArray(LocalDate.of(year, getMonth(month), day).lengthOfMonth())));
+                update.getDayChooser().setModel(new DefaultComboBoxModel<>(toIntegerArray(LocalDate.of(year, getMonth(month), day).lengthOfMonth())));
             }
         });
 
         /* ---------- Chuyển năm set lại ngày tháng 2 nếu nhuận ---------- */
-        add.getYearChooser().addItemListener((ItemEvent e) -> {
+        update.getYearChooser().addItemListener((ItemEvent e) -> {
             // Kiểm tra sự kiện là ItemEvent.SELECTED (chỉ xử lý khi một mục được chọn)
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                int day = (int) add.getDayChooser().getSelectedItem();
-                int month = Integer.parseInt(((String) add.getMonthChooser().getSelectedItem()).substring(6));
-                int year = (int) add.getYearChooser().getSelectedItem();
+                int day = (int) update.getDayChooser().getSelectedItem();
+                int month = Integer.parseInt(((String) update.getMonthChooser().getSelectedItem()).substring(6));
+                int year = (int) update.getYearChooser().getSelectedItem();
 
-                add.getDayChooser().setModel(new DefaultComboBoxModel<>(toIntegerArray(LocalDate.of(year, getMonth(month), day).lengthOfMonth())));
+                update.getDayChooser().setModel(new DefaultComboBoxModel<>(toIntegerArray(LocalDate.of(year, getMonth(month), day).lengthOfMonth())));
             }
         });
 
-        add.getAdd().addMouseListener(new MouseAdapter() {
+        update.getUpdate().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("[BUSAdd]: Add");
-                int day = (int) add.getDayChooser().getSelectedItem();
-                int month = Integer.parseInt(((String) add.getMonthChooser().getSelectedItem()).substring(6));
-                int year = (int) add.getYearChooser().getSelectedItem();
-                String item = add.getItem().getText();
-                String count = add.getCount().getText();
-                boolean number = add.getNumber().isSelected();
-                boolean kg = add.getKg().isSelected();
-                String price = add.getPrice().getText();
-                String thousand = add.getThousand().getText();
-                LocalDate dateAdd = LocalDate.of(year, month, day);
-                LocalTime timeAdd = LocalTime.now();
-                LocalDateTime ldt = LocalDateTime.of(dateAdd, timeAdd);
+                System.out.println("[BUSUpdate]: Update");
+                int day = (int) update.getDayChooser().getSelectedItem();
+                int month = Integer.parseInt(((String) update.getMonthChooser().getSelectedItem()).substring(6));
+                int year = (int) update.getYearChooser().getSelectedItem();
+                String item = update.getItem().getText();
+                String count = update.getCount().getText();
+                boolean number = update.getNumber().isSelected();
+                boolean kg = update.getKg().isSelected();
+                String price = update.getPrice().getText();
+                String thousand = update.getThousand().getText();
+                LocalDate dateUpdate = LocalDate.of(year, month, day);
+                LocalTime timeUpdate = LocalTime.now();
+                LocalDateTime ldt = LocalDateTime.of(dateUpdate, timeUpdate);
 
                 if (item.replaceAll(" ", "").equals("")) {
                     System.out.println("Item không bỏ trống!");
@@ -99,13 +99,13 @@ public class BUSAdd {
                 }
 
                 /* ---------- Add List, Database ---------- */
-                Item insertItem = new Item(ListItem.newId(), item, ldt, Float.parseFloat(count), number, Integer.parseInt(price + thousand));
-//                System.out.println("New Item: " + insertItem);
-                ListItem.add(insertItem);
-                add.getWindow().getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
-                add.getWindow().getCardLayout().show(add.getWindow().getCenterOfCenter(), "Home");
-                add.getWindow().newFilter();
-                DAOItem.GetInstance().Insert(insertItem);
+                Item updateItem = new Item(update.getItemUpdate().getId(), item, ldt, Float.parseFloat(count), number, Integer.parseInt(price + thousand));
+//                System.out.println("Update: " + updateItem);
+                ListItem.update(updateItem);
+                update.getWindow().getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                update.getWindow().getCardLayout().show(update.getWindow().getCenterOfCenter(), "Home");
+                update.getWindow().newFilter();
+                DAOItem.GetInstance().Update(updateItem);
 
                 /* -------------------- Show Info -------------------- */
                 boolean showInfo = false;
@@ -126,18 +126,19 @@ public class BUSAdd {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                add.getAddBorder().setBackgroundColor(new Color(200, 200, 200, 75));
-                add.repaint();
+                update.getUpdateBorder().setBackgroundColor(new Color(200, 200, 200, 75));
+                update.repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                add.getAddBorder().setBackgroundColor(new Color(200, 200, 200, 0));
-                add.repaint();
+                update.getUpdateBorder().setBackgroundColor(new Color(200, 200, 200, 0));
+                update.repaint();
             }
         });
     }
 
+    // Method
     public Integer[] toIntegerArray(int length) {
         return IntStream.rangeClosed(1, length).boxed().toArray(Integer[]::new);
     }

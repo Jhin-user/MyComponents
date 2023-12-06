@@ -1,0 +1,34 @@
+1. Đăng nhập Github
+2. Tạo Repo hoặc sử dụng Repo local
+$ git init
+3. Liên kết Git Local với Github Repo
+  3.1 Sao chép URL (https://github.com/username/repository.git)
+  3.2 Thêm remote repository với tên "origin" hoặc ten khác
+$ git remote add origin https://github.com/username/repository.git
+  3.3 Kiểm tra remote
+$ git remote -v
+4. Push lên Github
+  4.1 Thêm tập tin và thay đổi vào commit
+$ git add .
+$ git commit -m 'Thông tin commit'
+  4.2 Đẩy lên Github
+$ git push origin <localBranch>:<repoBranch>
+  Nếu repoBranch chưa có sẽ tự động tạo mới
+
+---------------------------------------------------------------
+Thao tác trên Github từ commandline
+<remote> thường là origin
+
+git remote -v: hiển thị danh sách remote đã liện kết với repolocal
+git remote show <remote>: Kiểm tra thông tin github
+git ls-remote --heads <remote>: xem tất cả nhánh trên remote, gồm danh sách tham chiếu
+git ls-remote --refs <remote>: xem tham chiếu của remote
+git remote prune <remote>: làm sách các references không còn sử dụng
+
+---------------------------------------------------------------
+git checkout <branch>: chuyển nhánh
+git branch -v: hiển thị tất cả nhánh local
+git branch <branch>: tạo branch
+git branch -d <branch>: xóa nhánh đã merge
+git branch -D <branch>: xóa nhánh chưa merge
+git show-ref: xem danh sách tham chiếu của repolocal
