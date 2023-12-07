@@ -6,6 +6,7 @@ import BUS.BUSFeature;
 import GUISupport.RadiusPanel;
 import GUISupport.RealTimePanel;
 import Images.ImageSupport;
+import Support.DataSupport;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -31,28 +32,30 @@ import javax.swing.JPanel;
  * @author Jhin
  */
 public class Window extends JFrame {
+    
+    /* "../Images ~ "/Images */
 
     private final Rectangle screenRect = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     private final Dimension fullScreenSize = new Dimension(screenRect.width, screenRect.height);
-    private final Image image = new ImageIcon(getClass().getResource("../Images/Viego.png")).getImage();
-    private final Image windowsIcon = new ImageIcon(getClass().getResource("../Images/search.png")).getImage();
-    private final ImageIcon closeIcon = new ImageIcon(getClass().getResource("../Images/close.png"));
-    private final ImageIcon extendIcon = new ImageIcon(getClass().getResource("../Images/extend.png"));
-    private final ImageIcon miniIcon = new ImageIcon(getClass().getResource("../Images/mini.png"));
-    private final ImageIcon hideIcon = new ImageIcon(getClass().getResource("../Images/hide.png"));
-    private final ImageIcon settingIcon = new ImageIcon(getClass().getResource("../Images/setting.png"));
+    private final Image image = new ImageIcon(getClass().getResource("/Images/Viego.png")).getImage();
+    private final Image windowsIcon = new ImageIcon(getClass().getResource("/Images/search.png")).getImage();
+    private final ImageIcon closeIcon = new ImageIcon(getClass().getResource("/Images/close.png"));
+    private final ImageIcon extendIcon = new ImageIcon(getClass().getResource("/Images/extend.png"));
+    private final ImageIcon miniIcon = new ImageIcon(getClass().getResource("/Images/mini.png"));
+    private final ImageIcon hideIcon = new ImageIcon(getClass().getResource("/Images/hide.png"));
+    private final ImageIcon settingIcon = new ImageIcon(getClass().getResource("/Images/setting.png"));
 
     private final String[] cardName = new String[]{"Home", "Add", "Update", "Setting"};
     private final ImageIcon[] featureIcon = new ImageIcon[]{
-        new ImageIcon(getClass().getResource("../Images/home.png")),
-        new ImageIcon(getClass().getResource("../Images/add.png")),};
+        new ImageIcon(getClass().getResource("/Images/home.png")),
+        new ImageIcon(getClass().getResource("/Images/add.png")),};
 
     private final Font dateTimeFont = new Font("Monospaced", 1, 24);
-    private final ImageIcon dayIcon = new ImageIcon(getClass().getResource("../Images/day.png"));
-    private final ImageIcon nightIcon = new ImageIcon(getClass().getResource("../Images/night.png"));
+    private final ImageIcon dayIcon = new ImageIcon(getClass().getResource("/Images/day.png"));
+    private final ImageIcon nightIcon = new ImageIcon(getClass().getResource("/Images/night.png"));
 
-    private final ImageIcon backIcon = new ImageIcon(getClass().getResource("../Images/left.png"));
-    private final ImageIcon clearIcon = new ImageIcon(getClass().getResource("../Images/clear.png"));
+    private final ImageIcon backIcon = new ImageIcon(getClass().getResource("/Images/left.png"));
+    private final ImageIcon clearIcon = new ImageIcon(getClass().getResource("/Images/clear.png"));
 
     private Dimension currentSize = new Dimension(1024, 720);
     private Point currentLocation;
@@ -71,7 +74,8 @@ public class Window extends JFrame {
     private JPanel controlTable;
     private CardLayout controlLayout;
     private JPanel filterPanel, addressPanel;
-    private JComboBox<String> sortCbb, filterCbb;
+    private JComboBox<String> sortCbb, filterCbb, monthCbb;
+    private JComboBox<Integer> yearCbb;
     private JLabel clearSortFilter;
     private JLabel backLabel, addressLabel;
 
@@ -266,6 +270,19 @@ public class Window extends JFrame {
         clearSortFilter = new JLabel(ImageSupport.getSizedIcon(clearIcon, 35, 35));
         clearSortFilter.setPreferredSize(new Dimension(50, 50));
         filterPanel.add(clearSortFilter);
+        
+        /* ---------- Month ---------- */
+        monthCbb = new JComboBox<>(new String[]{"Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"});
+        monthCbb.setPreferredSize(new Dimension(150, 50));
+        monthCbb.setFont(new Font("Monospaced", 1, 20));
+        monthCbb.setSelectedIndex(LocalDate.now().getMonthValue() - 1);
+        filterPanel.add(monthCbb);
+        
+        yearCbb = new JComboBox<>(DataSupport.toIntegerArray(2000, 2200));
+        yearCbb.setPreferredSize(new Dimension(150, 50));
+        yearCbb.setFont(new Font("Monospaced", 1, 20));
+        yearCbb.setSelectedItem(LocalDate.now().getYear());
+        filterPanel.add(yearCbb);
 
         /* ----------  ---------- */
         controlTable.add(filterPanel, filterPanel.getName());
@@ -425,6 +442,14 @@ public class Window extends JFrame {
 
     public JPanel getFilterPanel() {
         return filterPanel;
+    }
+
+    public JComboBox<String> getMonthCbb() {
+        return monthCbb;
+    }
+
+    public JComboBox<Integer> getYearCbb() {
+        return yearCbb;
     }
 
     // Setter

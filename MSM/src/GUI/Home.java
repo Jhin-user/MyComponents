@@ -86,6 +86,13 @@ public class Home extends JPanel {
         table.setSelectedRowColor(new Color(255, 192, 203, 150));
         jsp.setViewportView(table);
 
+        /* width */
+        table.getColumnModel().getColumn(0).setPreferredWidth(table.getPreferredSize().width / 5 - 80);
+        table.getColumnModel().getColumn(1).setPreferredWidth(table.getPreferredSize().width / 5 + 60);
+        table.getColumnModel().getColumn(2).setPreferredWidth(table.getPreferredSize().width / 5 + 80);
+        table.getColumnModel().getColumn(3).setPreferredWidth(table.getPreferredSize().width / 5 - 40);
+        table.getColumnModel().getColumn(4).setPreferredWidth(table.getPreferredSize().width / 5 - 20);
+
         table.getTableHeader().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {

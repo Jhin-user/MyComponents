@@ -1,0 +1,1 @@
+﻿sqlcmd -S JHIN\JHIN -d MSM -U sa -P jhin -Q "select * from ITEM" -o MSM.txt -h-1 -W -s "," -f 65001

@@ -3,6 +3,7 @@ package Support;
 import DTO.Item;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -17,12 +18,98 @@ public class DataSupport {
         for (Item i : list) {
             if (i.getCount() % (int) i.getCount() == 0) {
                 data[index++] = new String[]{i.getId(), i.getItem(), toDataTime(i.getDateTime()), (int) i.getCount() + (i.isIsItem() ? " item" : " kg"), i.getPrice() + " vnđ"};
-            }else{
+            } else {
                 data[index++] = new String[]{i.getId(), i.getItem(), toDataTime(i.getDateTime()), i.getCount() + (i.isIsItem() ? " item" : " kg"), i.getPrice() + " vnđ"};
             }
         }
 
         return data;
+    }
+
+    public static Integer[] toIntegerArray(int length) {
+        return IntStream.rangeClosed(1, length).boxed().toArray(Integer[]::new);
+    }
+
+    public static Integer[] toIntegerArray(int start, int end) {
+        return IntStream.rangeClosed(start, end).boxed().toArray(Integer[]::new);
+    }
+
+    public static ArrayList<Item> sortItemById(ArrayList<Item> listItem, SortType type) {
+        switch (type) {
+            case IDASCENDED -> {
+                /* Sort ID Ascended */
+                for (int i = 0; i < listItem.size() - 1; i++) {
+                    for (int j = i + 1; j < listItem.size(); j++) {
+                        if (Integer.parseInt(listItem.get(i).getId().substring(2)) > Integer.parseInt(listItem.get(j).getId().substring(2))) {
+                            Item temp = listItem.get(i);
+                            listItem.set(i, listItem.get(j));
+                            listItem.set(j, temp);
+                        }
+                    }
+                }
+            }
+            case IDDESCENDED -> {
+                /* Sort Id Descended */
+                for (int i = 0; i < listItem.size() - 1; i++) {
+                    for (int j = i + 1; j < listItem.size(); j++) {
+                        if (Integer.parseInt(listItem.get(i).getId().substring(2)) < Integer.parseInt(listItem.get(j).getId().substring(2))) {
+                            Item temp = listItem.get(i);
+                            listItem.set(i, listItem.get(j));
+                            listItem.set(j, temp);
+                        }
+                    }
+                }
+            }
+            case DAYASCENDED -> {
+                /* Sort day Ascended */
+                for (int i = 0; i < listItem.size() - 1; i++) {
+                    for (int j = i + 1; j < listItem.size(); j++) {
+                        if (listItem.get(i).getDateTime().getDayOfMonth() > listItem.get(j).getDateTime().getDayOfMonth()) {
+                            Item temp = listItem.get(i);
+                            listItem.set(i, listItem.get(j));
+                            listItem.set(j, temp);
+                        }
+                    }
+                }
+            }
+            case DAYDESCENDED -> {
+                /* Sort day Descended */
+                for (int i = 0; i < listItem.size() - 1; i++) {
+                    for (int j = i + 1; j < listItem.size(); j++) {
+                        if (listItem.get(i).getDateTime().getDayOfMonth() < listItem.get(j).getDateTime().getDayOfMonth()) {
+                            Item temp = listItem.get(i);
+                            listItem.set(i, listItem.get(j));
+                            listItem.set(j, temp);
+                        }
+                    }
+                }
+            }
+        }
+
+        return listItem;
+    }
+
+    public static ArrayList<Item> filterItem(ArrayList<Item> listItem, FilterType type) {
+        ArrayList<Item> filterList = new ArrayList<>();
+
+        switch (type) {
+            case ITEM -> {
+                for (Item i : listItem) {
+                    if (i.isIsItem()) {
+                        filterList.add(i);
+                    }
+                }
+            }
+            case KG -> {
+                for (Item i : listItem) {
+                    if (!i.isIsItem()) {
+                        filterList.add(i);
+                    }
+                }
+            }
+        }
+
+        return filterList;
     }
 
     public static String toDataTime(LocalDateTime ldt) {

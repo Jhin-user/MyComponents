@@ -1,6 +1,6 @@
 package DAO;
 
-import ConnectionDatabase.ConnectionDatabase;
+import ConnectionDatabase.ConnectionDatabaseOrigin;
 import DTO.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,8 +27,42 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "select * from ITEM";
 
         try {
-            Connection connection = ConnectionDatabase.GetConnection();
+            Connection connection = ConnectionDatabaseOrigin.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String item = rs.getString("item");
+                LocalDateTime dateTime = rs.getTimestamp("dateTime").toLocalDateTime();
+                float count = rs.getFloat("count");
+                boolean isItem = rs.getBoolean("isItem");
+                int price = rs.getInt("price");
+
+                listItem.add(new Item(id, item, dateTime, count, isItem, price));
+            }
+
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+        }
+
+        return listItem;
+    }
+    
+    @SuppressWarnings({"ConvertToTryWithResources", "null"})
+    public ArrayList<Item> SelectByMonthOfYear(int month, int year) {
+        ArrayList<Item> listItem = new ArrayList<>();
+        String query = "select * from ITEM where month(dateTime) = ? and year(dateTime) = ?";
+
+        try {
+            Connection connection = ConnectionDatabaseOrigin.GetConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+            
+            ps.setInt(1, month);
+            ps.setInt(2, year);
+            
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -57,7 +91,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "insert into ITEM values(?, ?, ?, ?, ?, ?)";
 
         try {
-            Connection connection = ConnectionDatabase.GetConnection();
+            Connection connection = ConnectionDatabaseOrigin.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setString(1, item.getId());
@@ -84,7 +118,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "update ITEM set item = ?, [dateTime] = ?, [count] = ?, isItem = ?, price = ? where ID = ?";
 
         try {
-            Connection connection = ConnectionDatabase.GetConnection();
+            Connection connection = ConnectionDatabaseOrigin.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setString(1, item.getItem());
@@ -111,7 +145,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "delete ITEM where ID = ?";
 
         try {
-            Connection connection = ConnectionDatabase.GetConnection();
+            Connection connection = ConnectionDatabaseOrigin.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setString(1, itemId);

@@ -22,8 +22,8 @@ import javax.swing.UIManager;
  */
 public class BUSHome {
 
-    private final ImageIcon updateIcon = new ImageIcon(getClass().getResource("../Images/update.png"));
-    private final ImageIcon deleteIcon = new ImageIcon(getClass().getResource("../Images/delete.png"));
+    private final ImageIcon updateIcon = new ImageIcon(getClass().getResource("/Images/update.png"));
+    private final ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/Images/delete.png"));
 
     private Home home;
     private JPopupMenu rightClick;

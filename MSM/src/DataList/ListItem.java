@@ -2,6 +2,7 @@ package DataList;
 
 import DAO.DAOItem;
 import DTO.Item;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class ListItem {
 
     /* Purpose for render */
-    private static ArrayList<Item> listItem = DAOItem.GetInstance().SelectAll();
+    private static ArrayList<Item> listItem = DAOItem.GetInstance().SelectByMonthOfYear(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
     private static ArrayList<Item> listSortFilter = new ArrayList<>(listItem);
 
     public static void add(Item item) {
@@ -37,25 +38,27 @@ public class ListItem {
         }
     }
 
-    public static String newId() {
-        String id;
-        int index = 1;
-
-        for (Item i : listItem) {
-            if (!(Integer.parseInt(i.getId().substring(2)) == index)) {
-                id = "IT" + String.format("%03d", index);
-                return id;
-            }
-            index++;
-        }
-        id = "IT" + String.format("%03d", index);
-
-        return id;
+    public static void renewListByMonthofYear(int month, int year) {
+        listItem = DAOItem.GetInstance().SelectByMonthOfYear(month, year);
+        listSortFilter = new ArrayList<>(listItem);
     }
 
     public static void renewListSortFilter() {
         listSortFilter.clear();
         listSortFilter = new ArrayList<>(listItem);
+    }
+
+    public static String newId(int month, int year) {
+        ArrayList<Item> listMonthOfYear = DAOItem.GetInstance().SelectByMonthOfYear(month, year);
+
+        int index = 1;
+        for (Item i : listMonthOfYear) {
+            if (Integer.parseInt(i.getId().substring(4)) != index) {
+                return String.format("%d%02d%03d", year % 100, month, index);
+            }
+            index++;
+        }
+        return String.format("%d%02d%03d", year % 100, month, index);
     }
 
     // Getter

@@ -3,6 +3,7 @@ package GUI;
 import BUS.BUSAdd;
 import GUISupport.RadiusPanel;
 import Images.ImageSupport;
+import Support.DataSupport;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,7 +11,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.time.LocalDate;
-import java.util.stream.IntStream;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -30,7 +30,7 @@ public class Add extends JPanel {
 
     private final Font labelFont = new Font("Monospaced", 1, 20);
     private final Font fieldFont = new Font("Monospaced", 0, 18);
-    private final ImageIcon addIcon = new ImageIcon(getClass().getResource("../Images/add.png"));
+    private final ImageIcon addIcon = new ImageIcon(getClass().getResource("/Images/add.png"));
 
     private Window window;
 
@@ -76,7 +76,7 @@ public class Add extends JPanel {
         dayLabel.setForeground(Color.white);
         north.add(dayLabel);
 
-        dayChooser = new JComboBox<>(toIntegerArray(LocalDate.now().lengthOfMonth()));
+        dayChooser = new JComboBox<>(DataSupport.toIntegerArray(LocalDate.now().lengthOfMonth()));
         dayChooser.setPreferredSize(new Dimension(60, 40));
         dayChooser.setFont(labelFont);
         dayChooser.setOpaque(false);
@@ -114,7 +114,7 @@ public class Add extends JPanel {
         yearLabel.setForeground(Color.white);
         north.add(yearLabel);
 
-        yearChooser = new JComboBox<>(toIntegerArray(2000, 2200));
+        yearChooser = new JComboBox<>(DataSupport.toIntegerArray(2000, 2200));
         yearChooser.setPreferredSize(new Dimension(150, 40));
         yearChooser.setFont(labelFont);
         yearChooser.setOpaque(false);
@@ -139,7 +139,7 @@ public class Add extends JPanel {
         });
         errorLabel = new JLabel();
         errorLabel.setFont(new Font("Monospaced", 1, 18));
-        errorLabel.setForeground(new Color(255, 0, 0, 175));
+        errorLabel.setForeground(new Color(255, 0, 0, 255));
         errorPanel.add(errorLabel);
 
         /* Item */
@@ -313,14 +313,6 @@ public class Add extends JPanel {
         addBorder.add(add);
     }
 
-    public Integer[] toIntegerArray(int length) {
-        return IntStream.rangeClosed(1, length).boxed().toArray(Integer[]::new);
-    }
-
-    public Integer[] toIntegerArray(int start, int end) {
-        return IntStream.rangeClosed(start, end).boxed().toArray(Integer[]::new);
-    }
-
     private void noCharTypeAndLength3(JTextField textField) {
         AbstractDocument document = (AbstractDocument) textField.getDocument();
         DocumentFilter filter = new DocumentFilter() {
@@ -397,6 +389,10 @@ public class Add extends JPanel {
 
     public JLabel getAdd() {
         return add;
+    }
+
+    public JLabel getErrorLabel() {
+        return errorLabel;
     }
 
     // Setter

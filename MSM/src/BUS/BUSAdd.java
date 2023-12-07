@@ -5,6 +5,7 @@ import DTO.Item;
 import DataList.ListItem;
 import GUI.Add;
 import Support.DataSupport;
+import Support.SortType;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
@@ -73,39 +74,150 @@ public class BUSAdd {
                 LocalDateTime ldt = LocalDateTime.of(dateAdd, timeAdd);
 
                 if (item.replaceAll(" ", "").equals("")) {
-                    System.out.println("Item không bỏ trống!");
+                    System.out.println("[BUSAdd]: Item khong bo trong!");
+                    add.getErrorLabel().setText("Item không được bỏ trống");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings({"SleepWhileInLoop", "CallToThreadStopSuspendOrResumeManager"})
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    add.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    add.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                add.getErrorLabel().setText("");
+                                add.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (count.replaceAll(" ", "").equals("")) {
-                    System.out.println("Count không bỏ trống!");
+                    System.out.println("[BUSAdd]: Count khong bo trong!");
+                    add.getErrorLabel().setText("Count không được bỏ trống");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    add.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    add.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                add.getErrorLabel().setText("");
+                                add.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (!count.matches("\\d*\\.?\\d+")) {
-                    System.out.println("Sai định dạng Count!");
+                    System.out.println("[BUSAdd]: Sai đinh dang Count!");
+                    add.getErrorLabel().setText("Sai định dạng Count");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    add.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    add.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                add.getErrorLabel().setText("");
+                                add.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 // Radio Chekcbox?
                 if (!number && !kg) {
-                    System.out.println("Chọn lượng item: item(s) hay kg!");
+                    System.out.println("[BUSAdd]: Chon luong item: item(s) hay kg!");
+                    add.getErrorLabel().setText("Chọn item hoặc kg");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    add.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    add.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                add.getErrorLabel().setText("");
+                                add.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (number && kg) {
-                    System.out.println("Chỉ chọn một lượng item!");
+                    System.out.println("[BUSAdd]: Chỉ chọn một lượng item!");
+                    add.getErrorLabel().setText("Chỉ chọn item hoặc kg");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    add.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    add.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                add.getErrorLabel().setText("");
+                                add.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (!price.matches("\\d+")) {
-                    System.out.println("Sai định dạng Price!");
+                    System.out.println("[BUSAdd]: Sai định dạng Price!");
+                    add.getErrorLabel().setText("Sai định dạng Price");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    add.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    add.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                add.getErrorLabel().setText("");
+                                add.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
 
                 /* ---------- Add List, Database ---------- */
-                Item insertItem = new Item(ListItem.newId(), item, ldt, Float.parseFloat(count), number, Integer.parseInt(price + thousand));
+                Item insertItem = new Item(ListItem.newId(month, year), item, ldt, Float.parseFloat(count), number, Integer.parseInt(price + String.format("%03d", Integer.valueOf(thousand))));
 //                System.out.println("New Item: " + insertItem);
-                ListItem.add(insertItem);
+                DAOItem.GetInstance().Insert(insertItem);
+                ListItem.renewListByMonthofYear(month, year);
+                DataSupport.sortItemById(ListItem.getListItem(), SortType.IDASCENDED);
                 add.getWindow().getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
                 add.getWindow().getCardLayout().show(add.getWindow().getCenterOfCenter(), "Home");
                 add.getWindow().newFilter();
-                DAOItem.GetInstance().Insert(insertItem);
+                add.getWindow().getMonthCbb().setSelectedIndex(month - 1);
+                add.getWindow().getYearCbb().setSelectedItem(year);
 
                 /* -------------------- Show Info -------------------- */
                 boolean showInfo = false;

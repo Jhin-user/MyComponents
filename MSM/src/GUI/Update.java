@@ -31,7 +31,7 @@ public class Update extends JPanel {
 
     private final Font labelFont = new Font("Monospaced", 1, 20);
     private final Font fieldFont = new Font("Monospaced", 0, 18);
-    private final ImageIcon updateIcon = new ImageIcon(getClass().getResource("../Images/update.png"));
+    private final ImageIcon updateIcon = new ImageIcon(getClass().getResource("/Images/update.png"));
 
     private Window window;
     private Item itemUpdate;

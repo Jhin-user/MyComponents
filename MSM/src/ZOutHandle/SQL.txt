@@ -1,29 +1,3 @@
-﻿create database MSM
-go
-
-use MSM
-create table ITEM(
-	ID nvarchar(7) primary key,
-	item nvarchar(40) not null,
-	[dateTime] datetime not null,
-	[count] float not null,
-	-- item or kg
-	isItem bit default 1,
-	price int not null
-)
-go
-
-/* Database */
-use master
-drop database MSM
-
-/* Query */
-use MSM
-select * from ITEM where month(dateTime) = 11 and year(dateTime) = 2023
-
-use MSM
-select * from ITEM where dateTime between '2023-11-1' and '2023-11-30'
-
 use MSM
 insert into ITEM values
 ('2312001', N'Sườn', '2023-12-01 16:00:59.200', 1.0, 1, 30000),
@@ -60,21 +34,3 @@ insert into ITEM values
 ('2312032', N'Bạc xỉu', '2023-12-07 16:45:50.527', 1.0, 1, 15000),
 ('2312033', N'Bánh canh', '2023-12-07 16:46:03.827', 1.0, 1, 32000),
 ('2312034', N'Giặt đồ', '2023-12-07 16:46:17.527', 1.0, 1, 35000)
-
-use MSM
-update ITEM
-set item = 'Sting', [dateTime] = '2023-12-6 20:57:30', [count] = 2, isItem = 1, price = 20000
-where ID = 'IT005'
-
-use MSM
-update ITEM
-set item = N'Gỏlden Sting', [dateTime] = '2023-12-6 20:57:30', [count] = 2, isItem = 1, price = 18000
-where ID = 'IT005'
-
-use MSM
-insert into ITEM values
-('IT010', '12', '2023-12-04 16:31:36', 12, 1, 12000)
-
-use MSM
-delete from ITEM
-where ID = ''

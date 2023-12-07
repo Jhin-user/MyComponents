@@ -85,7 +85,7 @@ public class RunTheGUI extends JFrame {
         add(backgroundPanel, "Center");
 
         /* -------------------- Components -------------------- */
-        int component = 8;
+        int component = 0;
         switch (component) {
             case -1 ->
                 createDateChooser();
@@ -116,16 +116,16 @@ public class RunTheGUI extends JFrame {
         revalidate();
     }
 
-    @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            EventQueue.invokeLater(() -> {
-                new RunTheGUI();
-            });
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
-        }
-    }
+//    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+//    public static void main(String[] args) {
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//            EventQueue.invokeLater(() -> {
+//                new RunTheGUI();
+//            });
+//        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+//        }
+//    }
 
     private void createDateChooser() {
 
