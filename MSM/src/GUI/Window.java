@@ -38,7 +38,7 @@ public class Window extends JFrame {
     private final Rectangle screenRect = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
     private final Dimension fullScreenSize = new Dimension(screenRect.width, screenRect.height);
     private final Image image = new ImageIcon(getClass().getResource("/Images/Viego.png")).getImage();
-    private final Image windowsIcon = new ImageIcon(getClass().getResource("/Images/search.png")).getImage();
+    private final Image windowsIcon = new ImageIcon(getClass().getResource("/Images/spending.png")).getImage();
     private final ImageIcon closeIcon = new ImageIcon(getClass().getResource("/Images/close.png"));
     private final ImageIcon extendIcon = new ImageIcon(getClass().getResource("/Images/extend.png"));
     private final ImageIcon miniIcon = new ImageIcon(getClass().getResource("/Images/mini.png"));

@@ -1,6 +1,6 @@
 package DAO;
 
-import ConnectionDatabase.ConnectionDatabaseOrigin;
+import ConnectionDatabase.ConnectionDatabase;
 import DTO.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +27,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "select * from ITEM";
 
         try {
-            Connection connection = ConnectionDatabaseOrigin.GetConnection();
+            Connection connection = ConnectionDatabase.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
 
@@ -57,7 +57,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "select * from ITEM where month(dateTime) = ? and year(dateTime) = ?";
 
         try {
-            Connection connection = ConnectionDatabaseOrigin.GetConnection();
+            Connection connection = ConnectionDatabase.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             
             ps.setInt(1, month);
@@ -91,7 +91,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "insert into ITEM values(?, ?, ?, ?, ?, ?)";
 
         try {
-            Connection connection = ConnectionDatabaseOrigin.GetConnection();
+            Connection connection = ConnectionDatabase.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setString(1, item.getId());
@@ -118,7 +118,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "update ITEM set item = ?, [dateTime] = ?, [count] = ?, isItem = ?, price = ? where ID = ?";
 
         try {
-            Connection connection = ConnectionDatabaseOrigin.GetConnection();
+            Connection connection = ConnectionDatabase.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setString(1, item.getItem());
@@ -145,7 +145,7 @@ public class DAOItem implements DAOInterface<Item> {
         String query = "delete ITEM where ID = ?";
 
         try {
-            Connection connection = ConnectionDatabaseOrigin.GetConnection();
+            Connection connection = ConnectionDatabase.GetConnection();
             PreparedStatement ps = connection.prepareStatement(query);
 
             ps.setString(1, itemId);
