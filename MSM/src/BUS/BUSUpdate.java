@@ -74,27 +74,135 @@ public class BUSUpdate {
 
                 if (item.replaceAll(" ", "").equals("")) {
                     System.out.println("Item không bỏ trống!");
+                    update.getErrorLabel().setText("Item không được bỏ trống");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings({"SleepWhileInLoop", "CallToThreadStopSuspendOrResumeManager"})
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    update.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    update.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                update.getErrorLabel().setText("");
+                                update.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (count.replaceAll(" ", "").equals("")) {
                     System.out.println("Count không bỏ trống!");
+                    update.getErrorLabel().setText("Count không được bỏ trống");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    update.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    update.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                update.getErrorLabel().setText("");
+                                update.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (!count.matches("\\d*\\.?\\d+")) {
                     System.out.println("Sai định dạng Count!");
+                    update.getErrorLabel().setText("Sai định dạng Count");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    update.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    update.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                update.getErrorLabel().setText("");
+                                update.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 // Radio Chekcbox?
                 if (!number && !kg) {
                     System.out.println("Chọn lượng item: item(s) hay kg!");
+                    update.getErrorLabel().setText("Chọn item hoặc kg");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    update.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    update.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                update.getErrorLabel().setText("");
+                                update.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (number && kg) {
                     System.out.println("Chỉ chọn một lượng item!");
+                    update.getErrorLabel().setText("Chỉ chọn item hoặc kg");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    update.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    update.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                update.getErrorLabel().setText("");
+                                update.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
                 if (!price.matches("\\d+")) {
                     System.out.println("Sai định dạng Price!");
+                    update.getErrorLabel().setText("Sai định dạng Price");
+                    new Thread() {
+                        @Override
+                        @SuppressWarnings("SleepWhileInLoop")
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                                for (int i = 250; i >= 0; i -= 5) {
+                                    update.getErrorLabel().setForeground(new Color(255, 0, 0, i));
+                                    update.getWindow().repaint();
+                                    Thread.sleep(4);
+                                }
+                                update.getErrorLabel().setText("");
+                                update.getErrorLabel().setForeground(new Color(255, 0, 0, 255));
+                            } catch (InterruptedException ex) {
+                            }
+                        }
+                    }.start();
                     return;
                 }
 

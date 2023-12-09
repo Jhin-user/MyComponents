@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ListItem {
 
     /* Purpose for render */
-    private static ArrayList<Item> listItem = DAOItem.GetInstance().SelectByMonthOfYear(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
+    private static ArrayList<Item> listItem = DAOItem.GetInstance().SelectByMonthYear(LocalDate.now().getMonthValue(), LocalDate.now().getYear());
     private static ArrayList<Item> listSortFilter = new ArrayList<>(listItem);
 
     public static void add(Item item) {
@@ -38,8 +38,13 @@ public class ListItem {
         }
     }
 
-    public static void renewListByMonthofYear(int month, int year) {
-        listItem = DAOItem.GetInstance().SelectByMonthOfYear(month, year);
+    public static void renewListMonthYear(int month, int year) {
+        listItem = DAOItem.GetInstance().SelectByMonthYear(month, year);
+        listSortFilter = new ArrayList<>(listItem);
+    }
+
+    public static void renewListDayMonthYear(int day, int month, int year) {
+        listItem = DAOItem.GetInstance().SelectByDayMonthYear(day, month, year);
         listSortFilter = new ArrayList<>(listItem);
     }
 
@@ -48,8 +53,8 @@ public class ListItem {
         listSortFilter = new ArrayList<>(listItem);
     }
 
-    public static String newId(int month, int year) {
-        ArrayList<Item> listMonthOfYear = DAOItem.GetInstance().SelectByMonthOfYear(month, year);
+    public static String newId(int day, int month, int year) {
+        ArrayList<Item> listMonthOfYear = DAOItem.GetInstance().SelectByDayMonthYear(day, month, year);
 
         int index = 1;
         for (Item i : listMonthOfYear) {

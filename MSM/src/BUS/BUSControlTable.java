@@ -9,6 +9,9 @@ import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.Month;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -32,6 +35,8 @@ public class BUSControlTable {
                     window.getCardLayout().show(window.getCenterOfCenter(), "Home");
                     window.newFilter();
                     window.getHome().getTable().clearSelectedRow();
+//                    ListItem.renewListMonthYear(month, year);
+//                    window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
                 }
 
                 @Override
@@ -85,12 +90,17 @@ public class BUSControlTable {
         window.getClearSortFilter().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("[BUSControlTable]: Clear sort filter");
+                System.out.println("[BUSControlTable]: Clear sort filter day");
+                int month = Integer.parseInt(window.getMonthCbb().getSelectedItem().toString().split(" ")[1]);
+                int year = (int) window.getYearCbb().getSelectedItem();
+                
+                ListItem.renewListMonthYear(month, year);
+                ListItem.renewListSortFilter();
                 window.getSortCbb().setSelectedIndex(-1);
                 window.getFilterCbb().setSelectedIndex(-1);
+                window.getDayCbb().setSelectedIndex(-1);
                 window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
                 window.getHome().getTable().clearSelectedRow();
-                ListItem.renewListSortFilter();
             }
 
             @Override
@@ -108,23 +118,60 @@ public class BUSControlTable {
             }
         });
 
-        window.getMonthCbb().addItemListener((ItemEvent e) -> {
+        window.getDayCbb().addItemListener((ItemEvent e) -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
+                int day = (int) window.getDayCbb().getSelectedItem();
                 int month = Integer.parseInt(window.getMonthCbb().getSelectedItem().toString().split(" ")[1]);
                 int year = (int) window.getYearCbb().getSelectedItem();
 
-                ListItem.renewListByMonthofYear(month, year);
+                ListItem.renewListDayMonthYear(day, month, year);
                 window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
             }
         });
-        
-        window.getYearCbb().addItemListener((ItemEvent e) -> {
+
+        window.getMonthCbb().addItemListener((ItemEvent e) -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
+                int day = 0;
+                if (window.getDayCbb().getSelectedItem() != null) {
+                    day = (int) window.getDayCbb().getSelectedItem();
+                }
                 int month = Integer.parseInt(window.getMonthCbb().getSelectedItem().toString().split(" ")[1]);
                 int year = (int) window.getYearCbb().getSelectedItem();
 
-                ListItem.renewListByMonthofYear(month, year);
-                window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                window.getDayCbb().setModel(new DefaultComboBoxModel<>(DataSupport.toIntegerArray(LocalDate.of(year, DataSupport.getMonth(month), 1).lengthOfMonth())));
+
+                if (day == 0) {
+                    ListItem.renewListMonthYear(month, year);
+                    window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                    window.getDayCbb().setSelectedIndex(-1);
+                } else {
+                    ListItem.renewListDayMonthYear(day, month, year);
+                    window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                    window.getDayCbb().setSelectedItem(day);
+                }
+            }
+        });
+
+        window.getYearCbb().addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                int day = 0;
+                if (window.getDayCbb().getSelectedItem() != null) {
+                    day = (int) window.getDayCbb().getSelectedItem();
+                }
+                int month = Integer.parseInt(window.getMonthCbb().getSelectedItem().toString().split(" ")[1]);
+                int year = (int) window.getYearCbb().getSelectedItem();
+
+                window.getDayCbb().setModel(new DefaultComboBoxModel<>(DataSupport.toIntegerArray(LocalDate.of(year, DataSupport.getMonth(month), 1).lengthOfMonth())));
+//
+                if (day == 0) {
+                    ListItem.renewListMonthYear(month, year);
+                    window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                    window.getDayCbb().setSelectedIndex(-1);
+                } else {
+                    ListItem.renewListDayMonthYear(day, month, year);
+                    window.getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
+                    window.getDayCbb().setSelectedItem(day);
+                }
             }
         });
     }

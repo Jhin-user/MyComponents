@@ -75,7 +75,7 @@ public class Window extends JFrame {
     private CardLayout controlLayout;
     private JPanel filterPanel, addressPanel;
     private JComboBox<String> sortCbb, filterCbb, monthCbb;
-    private JComboBox<Integer> yearCbb;
+    private JComboBox<Integer> dayCbb, yearCbb;
     private JLabel clearSortFilter;
     private JLabel backLabel, addressLabel;
 
@@ -271,6 +271,13 @@ public class Window extends JFrame {
         clearSortFilter.setPreferredSize(new Dimension(50, 50));
         filterPanel.add(clearSortFilter);
         
+        /* ---------- Day ---------- */
+        dayCbb = new JComboBox<>(DataSupport.toIntegerArray(LocalDate.now().lengthOfMonth()));
+        dayCbb.setPreferredSize(new Dimension(150, 50));
+        dayCbb.setFont(new Font("Monospaced", 1, 20));
+        dayCbb.setSelectedIndex(- 1);
+        filterPanel.add(dayCbb);
+        
         /* ---------- Month ---------- */
         monthCbb = new JComboBox<>(new String[]{"Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"});
         monthCbb.setPreferredSize(new Dimension(150, 50));
@@ -278,6 +285,7 @@ public class Window extends JFrame {
         monthCbb.setSelectedIndex(LocalDate.now().getMonthValue() - 1);
         filterPanel.add(monthCbb);
         
+        /* ---------- Year ---------- */
         yearCbb = new JComboBox<>(DataSupport.toIntegerArray(2000, 2200));
         yearCbb.setPreferredSize(new Dimension(150, 50));
         yearCbb.setFont(new Font("Monospaced", 1, 20));
@@ -442,6 +450,10 @@ public class Window extends JFrame {
 
     public JPanel getFilterPanel() {
         return filterPanel;
+    }
+
+    public JComboBox<Integer> getDayCbb() {
+        return dayCbb;
     }
 
     public JComboBox<String> getMonthCbb() {

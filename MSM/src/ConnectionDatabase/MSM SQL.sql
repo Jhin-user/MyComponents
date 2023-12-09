@@ -19,7 +19,7 @@ drop database MSM
 
 /* Query */
 use MSM
-select * from ITEM where month(dateTime) = 11 and year(dateTime) = 2023
+select * from ITEM where day(dateTime) = 8 and month(dateTime) = 12 and year(dateTime) = 2023
 
 use MSM
 select * from ITEM where dateTime between '2023-11-1' and '2023-11-30'

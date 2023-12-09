@@ -52,7 +52,42 @@ public class DAOItem implements DAOInterface<Item> {
     }
     
     @SuppressWarnings({"ConvertToTryWithResources", "null"})
-    public ArrayList<Item> SelectByMonthOfYear(int month, int year) {
+    public ArrayList<Item> SelectByDayMonthYear(int day, int month, int year) {
+        ArrayList<Item> listItem = new ArrayList<>();
+        String query = "select * from ITEM where day(dateTime) = ? and month(dateTime) = ? and year(dateTime) = ?";
+
+        try {
+            Connection connection = ConnectionDatabase.GetConnection();
+            PreparedStatement ps = connection.prepareStatement(query);
+            
+            ps.setInt(1, day);
+            ps.setInt(2, month);
+            ps.setInt(3, year);
+            
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String item = rs.getString("item");
+                LocalDateTime dateTime = rs.getTimestamp("dateTime").toLocalDateTime();
+                float count = rs.getFloat("count");
+                boolean isItem = rs.getBoolean("isItem");
+                int price = rs.getInt("price");
+
+                listItem.add(new Item(id, item, dateTime, count, isItem, price));
+            }
+
+            rs.close();
+            ps.close();
+            connection.close();
+        } catch (SQLException e) {
+        }
+
+        return listItem;
+    }
+    
+    @SuppressWarnings({"ConvertToTryWithResources", "null"})
+    public ArrayList<Item> SelectByMonthYear(int month, int year) {
         ArrayList<Item> listItem = new ArrayList<>();
         String query = "select * from ITEM where month(dateTime) = ? and year(dateTime) = ?";
 

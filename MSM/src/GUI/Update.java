@@ -38,6 +38,7 @@ public class Update extends JPanel {
 
     private JComboBox<Integer> dayChooser, yearChooser;
     private JComboBox<String> monthChooser;
+    private JLabel errorLabel;
     private JTextField item, count, price, thousand;
     private JCheckBox number, kg;
     private RadiusPanel updateBorder;
@@ -129,8 +130,20 @@ public class Update extends JPanel {
         center.setOpaque(false);
         add(center, "Center");
 
-        /* Temp */
-        center.add(new JLabel());
+        /* Error */
+        JPanel errorPanel = new JPanel(new FlowLayout(3, 0, 0));
+        errorPanel.setOpaque(false);
+        center.add(errorPanel);
+        
+        errorPanel.add(new JLabel() {
+            {
+                setPreferredSize(new Dimension(40, 50));
+            }
+        });
+        errorLabel = new JLabel();
+        errorLabel.setFont(new Font("Monospaced", 1, 18));
+        errorLabel.setForeground(new Color(255, 0, 0, 255));
+        errorPanel.add(errorLabel);
 
         /* Item */
         JPanel itemPanel = new JPanel(new FlowLayout(3, 0, 0));
@@ -361,6 +374,10 @@ public class Update extends JPanel {
 
     public Window getWindow() {
         return window;
+    }
+
+    public JLabel getErrorLabel() {
+        return errorLabel;
     }
 
     public JTextField getItem() {

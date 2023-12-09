@@ -208,10 +208,10 @@ public class BUSAdd {
                 }
 
                 /* ---------- Add List, Database ---------- */
-                Item insertItem = new Item(ListItem.newId(month, year), item, ldt, Float.parseFloat(count), number, Integer.parseInt(price + String.format("%03d", Integer.valueOf(thousand))));
+                Item insertItem = new Item(ListItem.newId(day, month, year), item, ldt, Float.parseFloat(count), number, Integer.parseInt(price + String.format("%03d", Integer.valueOf(thousand))));
 //                System.out.println("New Item: " + insertItem);
                 DAOItem.GetInstance().Insert(insertItem);
-                ListItem.renewListByMonthofYear(month, year);
+                ListItem.renewListDayMonthYear(day, month, year);
                 DataSupport.sortItemById(ListItem.getListItem(), SortType.IDASCENDED);
                 add.getWindow().getHome().getTable().setData(DataSupport.toObjectData(ListItem.getListItem()));
                 add.getWindow().getCardLayout().show(add.getWindow().getCenterOfCenter(), "Home");
